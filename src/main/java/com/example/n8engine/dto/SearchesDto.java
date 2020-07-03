@@ -1,4 +1,4 @@
 package com.example.n8engine.dto;
 
-public class SearchDto {
+public class SearchesDto {
 }

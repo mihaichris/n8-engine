@@ -1,4 +1,4 @@
 package com.example.n8engine.service;
 
-public class SearchService {
+public interface SearchesService {
 }

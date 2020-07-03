@@ -2,7 +2,6 @@ package com.example.n8engine.config;
 
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -15,8 +14,11 @@ import org.springframework.data.solr.repository.config.EnableSolrRepositories;
 @ComponentScan
 public class SolrConfig {
 
-    @Autowired
-    private Environment environment;
+    private final Environment environment;
+
+    public SolrConfig(Environment environment) {
+        this.environment = environment;
+    }
 
     @Bean
     public SolrClient solrClient() {

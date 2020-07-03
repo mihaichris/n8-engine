@@ -1,80 +1,22 @@
-package com.example.n8engine.model;
-
-import org.springframework.data.annotation.Id;
-import org.springframework.data.solr.core.mapping.Indexed;
-import org.springframework.data.solr.core.mapping.SolrDocument;
+package com.example.n8engine.dto;
 
 import java.util.List;
 
-@SolrDocument(collection = "products")
-public class Product {
+public class ProductDto {
 
-    public static final String ID_FIELD = "id";
-    public static final String NAME_FIELD = "name";
-    public static final String CATEGORY_NAME_FIELD = "category_name";
-    public static final String BRAND_NAME_FIELD = "category_name";
-    public static final String VENDOR_NAME_FIELD = "category_name";
-    public static final String AVAILABLE_FIELD = "inStock";
-    public static final String RESEALED_FIELD = "resealed";
-    public static final String FEATURES_FIELD = "features";
-    public static final String DESCRIPTION_FIELD = "description";
-    public static final String PRICE_FIELD = "price";
-    public static final String RATING_FIELD = "rating";
-    public static final String REVIEWS_FIELD = "reviews";
-    public static final String POPULARITY_FIELD = "popularity";
-    public static final String TAGS_FIELD = "tags";
-
-    @Id
-    @Indexed(name = ID_FIELD)
-    private String Id;
-
-    @Indexed(name = NAME_FIELD)
     private String name;
-
-    @Indexed(name = CATEGORY_NAME_FIELD)
     private String categoryName;
-
-    @Indexed(name = BRAND_NAME_FIELD)
     private String brandName;
-
-    @Indexed(name = VENDOR_NAME_FIELD)
     private String vendorName;
-
-    @Indexed(name = AVAILABLE_FIELD)
     private boolean available;
-
-    @Indexed(name = RESEALED_FIELD)
     private boolean resealed;
-
-    @Indexed(name = FEATURES_FIELD)
     private List<String> features;
-
-    @Indexed(name = DESCRIPTION_FIELD)
     private String description;
-
-    @Indexed(name = PRICE_FIELD)
     private float price;
-
-    @Indexed(name = RATING_FIELD)
     private float rating;
-
-    @Indexed(name = REVIEWS_FIELD)
     private int reviews;
-
-    @Indexed(name = POPULARITY_FIELD)
     private float popularity;
-
-    @Indexed(name = TAGS_FIELD)
     private List<String> tags;
-
-
-    public String getId() {
-        return Id;
-    }
-
-    public void setId(String Id) {
-        this.Id = Id;
-    }
 
     public String getName() {
         return name;
@@ -178,12 +120,5 @@ public class Product {
 
     public void setTags(List<String> tags) {
         this.tags = tags;
-    }
-
-    @Override
-    public String toString() {
-        return "Product{" +
-                "name='" + name + '\'' +
-                '}';
     }
 }
