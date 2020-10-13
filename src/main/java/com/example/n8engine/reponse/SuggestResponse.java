@@ -21,11 +21,4 @@ public class SuggestResponse {
     public void setSimilarSearches(List<String> similarSearches) {
         this.similarSearches = similarSearches;
     }
-
-    @Override
-    public String toString() {
-        return "SuggestResponse{" +
-                "suggest='" + suggest + '\'' +
-                '}';
-    }
 }
