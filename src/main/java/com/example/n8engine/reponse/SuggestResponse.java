@@ -3,15 +3,15 @@ package com.example.n8engine.reponse;
 import java.util.List;
 
 public class SuggestResponse {
-    public String suggest;
+    public String correction;
     public List<String> similarSearches;
 
-    public String getSuggest() {
-        return suggest;
+    public String getCorrection() {
+        return correction;
     }
 
-    public void setSuggest(String suggest) {
-        this.suggest = suggest;
+    public void setCorrection(String correction) {
+        this.correction = correction;
     }
 
     public List<String> getSimilarSearches() {

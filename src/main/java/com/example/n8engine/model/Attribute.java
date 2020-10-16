@@ -1,11 +1,25 @@
 package com.example.n8engine.model;
 
+import java.util.ArrayList;
+
 public class Attribute {
     private String name;
-    private String value;
+    private ArrayList<Value> values;
 
-    public Attribute(String name, String value) {
+    public Attribute(String name) {
         this.name = name;
-        this.value = value;
+        this.values = new ArrayList<Value>();
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public ArrayList<Value> getValues() {
+        return values;
+    }
+
+    public void addValue(Value value) {
+        this.values.add(value);
     }
 }

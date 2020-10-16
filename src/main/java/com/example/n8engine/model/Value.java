@@ -9,11 +9,16 @@ public class Value {
         this.name = name;
     }
 
+    public Attribute getAttribute() {
+        return attribute;
+    }
+
+    public String getName() {
+        return name;
+    }
+
     @Override
     public String toString() {
-        return "Value{" +
-                "attribute=" + this.attribute +
-                ", name='" + this.name + '\'' +
-                '}';
+        return this.getAttribute().getName() + " : " + this.getName();
     }
 }

@@ -10,4 +10,12 @@ public class Entity {
         this.values = values;
         this.name = name;
     }
+
+    public ArrayList<Value> getValues() {
+        return values;
+    }
+
+    public String getName() {
+        return name;
+    }
 }
