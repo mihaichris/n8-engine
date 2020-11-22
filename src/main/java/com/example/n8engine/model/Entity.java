@@ -2,11 +2,11 @@ package com.example.n8engine.model;
 
 import java.util.ArrayList;
 
-public class Entity {
+final public class Entity {
     private ArrayList<Value> values;
     private String name;
 
-    public Entity(ArrayList<Value> values, String name) {
+    public Entity(String name, ArrayList<Value> values) {
         this.values = values;
         this.name = name;
     }

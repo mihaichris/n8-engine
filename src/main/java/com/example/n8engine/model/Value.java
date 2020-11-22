@@ -1,10 +1,10 @@
 package com.example.n8engine.model;
 
-public class Value {
+final public class Value {
     private Attribute attribute;
     private String name;
 
-    public Value(Attribute attribute, String name) {
+    public Value(String name, Attribute attribute) {
         this.attribute = attribute;
         this.name = name;
     }

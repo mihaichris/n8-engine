@@ -2,7 +2,7 @@ package com.example.n8engine.model;
 
 import java.util.ArrayList;
 
-public class Attribute {
+final public class Attribute {
     private String name;
     private ArrayList<Value> values;
 

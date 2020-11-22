@@ -1,6 +1,6 @@
 package com.example.n8engine.fuseki;
 
-import com.example.n8engine.service.JenaService;
+import com.example.n8engine.searcher.Searcher;
 import org.apache.jena.fuseki.FusekiException;
 import org.apache.jena.fuseki.main.FusekiServer;
 import org.apache.jena.query.Dataset;
@@ -16,16 +16,16 @@ public class InitializingFusekiServer {
 
     private static final Logger LOG  = LoggerFactory.getLogger(InitializingFusekiServer.class);
     private Environment environment;
-    private JenaService jenaService;
+    private Searcher offerService;
 
-    public InitializingFusekiServer(Environment environment, JenaService jenaService) {
+    public InitializingFusekiServer(Environment environment, Searcher offerService) {
         this.environment = environment;
-        this.jenaService = jenaService;
+        this.offerService = offerService;
     }
 
     @EventListener
     public void onApplicationStart(ContextRefreshedEvent event) {
-        LOG.info("Starting Fuseki server using dataset: " + this.jenaService.getDataset());
+        LOG.info("Starting Fuseki server using dataset: " + this.offerService.getDataset());
         try {
             startFusekiServer();
         } catch (FusekiException fusekiException) {
@@ -34,7 +34,7 @@ public class InitializingFusekiServer {
     }
 
     private void startFusekiServer() {
-        Dataset dataset = this.jenaService.getDataset();
+        Dataset dataset = this.offerService.getDataset();
         FusekiServer server = FusekiServer.create()
                 .add("/dataset", dataset)
                 .build() ;
