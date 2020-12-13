@@ -30,7 +30,7 @@ final public class EntityController {
     @GetMapping("/{uid}")
     public Entity find(@PathVariable String uid) {
         try {
-            return this.searcher.findEntityByUID(uid);
+            return this.searcher.findEntityByURI(uid);
         } catch (EntityNotFoundException exception) {
             LOGGER.error(exception.getMessage());
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, exception.getMessage(), exception);

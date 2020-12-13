@@ -1,21 +1,22 @@
 package com.example.n8engine.model;
 
-import java.util.ArrayList;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.apache.jena.rdf.model.RDFNode;
 
+import java.util.Set;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 final public class Entity {
-    private ArrayList<Value> values;
+    private Set<Value> values;
     private String name;
+    private String score;
+    private RDFNode graph;
 
-    public Entity(String name, ArrayList<Value> values) {
-        this.values = values;
-        this.name = name;
-    }
-
-    public ArrayList<Value> getValues() {
-        return values;
-    }
-
-    public String getName() {
-        return name;
+    public void addValue(Value value) {
+        this.values.add(value);
     }
 }

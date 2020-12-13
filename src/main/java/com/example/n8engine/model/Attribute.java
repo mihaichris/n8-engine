@@ -8,18 +8,14 @@ final public class Attribute {
 
     public Attribute(String name) {
         this.name = name;
-        this.values = new ArrayList<Value>();
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public ArrayList<Value> getValues() {
-        return values;
+        this.values = new ArrayList<>();
     }
 
     public void addValue(Value value) {
         this.values.add(value);
+    }
+
+    public String getName() {
+        return this.name;
     }
 }

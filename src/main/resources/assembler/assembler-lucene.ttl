@@ -15,12 +15,13 @@
 # limitations under the License.
 
 PREFIX :       <http://n8.ro/#>
-PREFIX  fuseki: <http://jena.apache.org/fuseki#>
+PREFIX fuseki: <http://jena.apache.org/fuseki#>
 PREFIX rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX rdfs:    <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX ja:      <http://jena.hpl.hp.com/2005/11/Assembler#>
 PREFIX tdb2:    <http://jena.apache.org/2016/tdb#>
 PREFIX text:    <http://jena.apache.org/text#>
+PREFIX dc:      <http://purl.org/dc/elements/1.1/>
 
 
 [] rdf:type fuseki:Server ;
@@ -79,15 +80,15 @@ text:TextIndexLucene  rdfs:subClassOf   text:TextIndex .
 .
 
 :base_dataset rdf:type     tdb2:DatasetTDB2 ;
-              tdb2:location "src/main/resources/tdb2/lucene"
+              tdb2:location "E:/Java Projects/n8-engine/src/main/resources/tdb2/lucene"
 .
 
 :indexLucene a              text:TextIndexLucene ;
-    text:directory "src/main/resources/index-lucene" ;
+    text:directory "E:/Java Projects/n8-engine/src/main/resources/index/lucene" ;
     text:storeValues true ;
     text:analyzer [ a text:StandardAnalyzer ] ;
     text:queryAnalyzer [ a text:KeywordAnalyzer ] ;
-    text:queryParser text:AnalyzingQueryParser ;
+    text:queryParser text:ComplexPhraseQueryParser ;
 #    text:propLists ( [ . . . ] . . . ) ;
     text:entityMap :entMap ;
 .
@@ -101,4 +102,12 @@ text:TextIndexLucene  rdfs:subClassOf   text:TextIndex .
     text:map          (
                           [ text:field     "text" ;
                             text:predicate  rdfs:label ]
+                          [ text:field     "text" ;
+                            text:predicate  dc:title ]
+                          [ text:field     "title" ;
+                            text:predicate  dc:title ]
+                          [ text:field     "description" ;
+                            text:predicate  dc:description ]
+                          [ text:field     "commet" ;
+                            text:predicate  rdfs:comment ]
                          ) .

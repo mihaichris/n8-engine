@@ -19,7 +19,7 @@ public class CrawlCommand {
 
     @ShellMethod("Crawl semantic web documents and index them in TDB store.")
     public void crawl() throws Exception {
-        File crawlStorage = new File("src/resources/crawler");
+        File crawlStorage = new File("src/main/resources/crawler");
         CrawlConfig config = new CrawlConfig();
         config.setCrawlStorageFolder(crawlStorage.getAbsolutePath());
         config.setMaxDepthOfCrawling(2);
@@ -31,7 +31,7 @@ public class CrawlCommand {
         RobotstxtServer robotstxtServer = new RobotstxtServer(robotstxtConfig, pageFetcher);
         CrawlController controller = new CrawlController(config, pageFetcher, robotstxtServer);
 
-        controller.addSeed("http://dbpedia.org/");
+        controller.addSeed("http://xmlns.com/foaf/spec/index.rdf");
 
         CrawlerStatistics stats = new CrawlerStatistics();
         CrawlController.WebCrawlerFactory<SemanticDocumentsCrawler> factory = () -> new SemanticDocumentsCrawler(stats);

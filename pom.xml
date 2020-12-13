@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.3.0.RELEASE</version>
+		<version>2.4.0</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.example</groupId>
@@ -117,9 +117,30 @@
 		</dependency>
 		<dependency>
 			<groupId>org.apache.jena</groupId>
+			<artifactId>jena-text-es</artifactId>
+			<version>3.16.0</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.hdrhistogram</groupId>
+					<artifactId>HdrHistogram</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.jena</groupId>
 			<artifactId>jena-fuseki-main</artifactId>
 			<version>3.16.0</version>
 		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>org.apache.tika</groupId>-->
+<!--			<artifactId>tika-core</artifactId>-->
+<!--			<version>1.24.1</version>-->
+<!--		</dependency>-->
+<!--		<dependency>-->
+<!--			<groupId>org.apache.tika</groupId>-->
+<!--			<artifactId>tika-parsers</artifactId>-->
+<!--			<version>1.24.1</version>-->
+<!--		</dependency>-->
 	</dependencies>
 
 	<build>

@@ -16,7 +16,7 @@ public class InitializingFusekiServer {
 
     private static final Logger LOG  = LoggerFactory.getLogger(InitializingFusekiServer.class);
     private Environment environment;
-    private Searcher offerService;
+    private final Searcher offerService;
 
     public InitializingFusekiServer(Environment environment, Searcher offerService) {
         this.environment = environment;
