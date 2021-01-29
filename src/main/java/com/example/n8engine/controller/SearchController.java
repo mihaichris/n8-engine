@@ -1,15 +1,18 @@
 package com.example.n8engine.controller;
 
-import com.example.n8engine.dto.SearchResponse;
+import com.example.n8engine.dto.SearchRequest;
 import com.example.n8engine.enumeration.SearchType;
 import com.example.n8engine.model.Entity;
 import com.example.n8engine.searcher.Searcher;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.jsonldjava.utils.JsonUtils;
+import ioinformarics.oss.jackson.module.jsonld.JsonldModule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
@@ -27,11 +30,20 @@ final public class SearchController {
         this.searcher = searcher;
     }
 
-    @GetMapping("/byOntology/{searchType}/{searchQuery}")
-    public SearchResponse search(@PathVariable SearchType searchType, @PathVariable String searchQuery) {
+    @PostMapping()
+    public  Set<Entity> search(@RequestBody SearchRequest searchRequest) {
         try {
+            SearchType searchType = searchRequest.getSearchType();
+            String searchQuery = searchRequest.getSearchQuery();
             Set<Entity> entities = this.searcher.getEntitiesBySearchQuery(searchType, searchQuery);
-            return new SearchResponse(entities);
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.registerModule(new JsonldModule());
+            for (Entity entity: entities) {
+                String personJsonLd = objectMapper.writeValueAsString(entity);
+                Object jsonObject = JsonUtils.fromString(personJsonLd);
+                System.out.println(jsonObject);
+            }
+            return entities;
         } catch (Exception exception) {
             LOGGER.error(exception.getMessage());
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, exception.getMessage(), exception);

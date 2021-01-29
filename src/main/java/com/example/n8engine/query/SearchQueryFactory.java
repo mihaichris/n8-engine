@@ -9,12 +9,18 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 public class SearchQueryFactory {
 
-    static public QueryInterface create(SearchType searchType, String searchQuery) throws SearchTypeNotFoundException {
+    private final DocumentQuery documentQuery;
+    private final TermQuery termQuery;
+    private final ResourceQuery resourceQuery;
+
+     public QueryInterface create(SearchType searchType) throws SearchTypeNotFoundException {
         switch (searchType) {
             case DOCUMENTS:
-                return new DocumentQuery(searchQuery);
+                return this.documentQuery;
+            case RESOURCE:
+                return this.resourceQuery;
             case TERMS:
-                return new TermQuery(searchQuery);
+                return this.termQuery;
         }
 
         throw new SearchTypeNotFoundException("Search type not found.");

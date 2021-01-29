@@ -1,19 +1,20 @@
 package com.example.n8engine.query;
 
+import lombok.AllArgsConstructor;
 import org.apache.jena.atlas.lib.StrUtils;
 import org.apache.jena.query.Query;
 import org.apache.jena.query.QueryFactory;
+import org.springframework.stereotype.Component;
 
+@Component
+@AllArgsConstructor
 public class ResourceQuery implements QueryInterface {
 
-    private String searchQuery;
-
-    public ResourceQuery(String searchQuery) {
-        this.searchQuery = searchQuery;
-    }
-
+    /*
+     * Search by all triples
+     */
     @Override
-    public Query getQuery() {
+    public Query search(String searchQuery) {
         String prefix = StrUtils.strjoinNL(
                 "PREFIX : <http://n8.ro/#>"
                 , "PREFIX text: <http://jena.apache.org/text#>"
@@ -23,17 +24,14 @@ public class ResourceQuery implements QueryInterface {
                 , "PREFIX owl: <http://www.w3.org/2002/07/owl#>"
         );
         String queryString = StrUtils.strjoinNL(
-                "SELECT DISTINCT ?entity, ?attribute, ?literal, ?score, ?graph "
-                , "{"
-                ,  this.getSearchQuery() + " ?attribute ?value"
+                "SELECT DISTINCT ?entity ?attribute ?literal ?score ?graph "
+                , " WHERE {"
+                ,  "(?entity ?score ?literal ?graph ?attribute) text:query " + "\"" + searchQuery + "\"."
                 ,"}"
         );
+
         Query query = QueryFactory.create(prefix + "\n" + queryString);
 
         return query;
-    }
-
-    private String getSearchQuery() {
-        return this.searchQuery;
     }
 }

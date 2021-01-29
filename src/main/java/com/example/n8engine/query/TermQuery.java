@@ -1,19 +1,18 @@
 package com.example.n8engine.query;
 
+import lombok.AllArgsConstructor;
 import org.apache.jena.atlas.lib.StrUtils;
 import org.apache.jena.query.Query;
 import org.apache.jena.query.QueryFactory;
+import org.springframework.stereotype.Component;
 
+@Component
+@AllArgsConstructor
 public class TermQuery implements QueryInterface {
 
-    private final String searchQuery;
-
-    public TermQuery(String searchQuery) {
-        this.searchQuery = searchQuery;
-    }
 
     @Override
-    public Query getQuery() {
+    public Query search(String searchQuery) {
         String prefix = StrUtils.strjoinNL(
                 "PREFIX : <http://n8.ro/#>"
                 , "PREFIX text: <http://jena.apache.org/text#>"
@@ -26,15 +25,11 @@ public class TermQuery implements QueryInterface {
                 "SELECT DISTINCT ?subject, ?score, ?literal "
                 , "{"
                 , " ?subject rdf:type owl:Ontology. "
-                ,  "(?entity ?score ?literal ?graph ?attribute) text:query " + this.getSearchQuery() + ". "
+                    ,  "(?entity ?score ?literal ?graph ?attribute) text:query " + searchQuery + ". "
                 ,"}"
         );
         Query query = QueryFactory.create(prefix + "\n" + queryString);
 
         return query;
-    }
-
-    private String getSearchQuery() {
-        return this.searchQuery;
     }
 }
