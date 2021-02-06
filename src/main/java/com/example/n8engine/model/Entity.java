@@ -2,6 +2,7 @@ package com.example.n8engine.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import ioinformarics.oss.jackson.module.jsonld.annotation.JsonldId;
 import ioinformarics.oss.jackson.module.jsonld.annotation.JsonldNamespace;
 import ioinformarics.oss.jackson.module.jsonld.annotation.JsonldResource;
 import ioinformarics.oss.jackson.module.jsonld.annotation.JsonldType;
@@ -21,11 +22,11 @@ import java.util.Set;
 @JsonIgnoreProperties(ignoreUnknown = true)
 final public class Entity {
 
-    @JsonProperty("@id")
+    @JsonldId
     private String id;
     @JsonProperty("n:values")
     private Set<Value> values;
-    @JsonProperty("n:hasScore")
+    @JsonProperty("n:score")
     private String score;
     @JsonProperty("n:graph")
     private String graph;

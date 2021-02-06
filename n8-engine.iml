@@ -82,6 +82,8 @@
     <orderEntry type="library" name="Maven: org.eclipse.jetty.http2:http2-http-client-transport:9.4.34.v20201102" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.11.3" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.30" level="project" />
+    <orderEntry type="library" name="Maven: org.xerial:sqlite-jdbc:3.32.3" level="project" />
+    <orderEntry type="library" name="Maven: org.mapstruct:mapstruct:1.4.1.Final" level="project" />
     <orderEntry type="library" name="Maven: com.github.jsonld-java:jsonld-java:0.13.0" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-core:2.11.3" level="project" />
     <orderEntry type="library" name="Maven: org.apache.httpcomponents:httpclient-osgi:4.5.13" level="project" />
