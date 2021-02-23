@@ -28,8 +28,12 @@ public class TermQuery implements QueryInterface {
                     ,  "(?entity ?score ?literal ?graph ?attribute) text:query " + searchQuery + ". "
                 ,"}"
         );
-        Query query = QueryFactory.create(prefix + "\n" + queryString);
 
-        return query;
+        return QueryFactory.create(prefix + "\n" + queryString);
+    }
+
+    @Override
+    public Query findByEntityUri(String URI) {
+        return null;
     }
 }

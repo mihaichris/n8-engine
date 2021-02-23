@@ -30,8 +30,21 @@ public class ResourceQuery implements QueryInterface {
                 ,"}"
         );
 
-        Query query = QueryFactory.create(prefix + "\n" + queryString);
+        return QueryFactory.create(prefix + "\n" + queryString);
+    }
 
-        return query;
+    @Override
+    public Query findByEntityUri(String URI) {
+        String prefix = StrUtils.strjoinNL(
+                " "
+        );
+        String queryString = StrUtils.strjoinNL(
+                "SELECT DISTINCT ?entity ?attribute ?value"
+                , " WHERE {"
+                ,  URI + " ?attribute ?value."
+                ,"}"
+        );
+
+        return QueryFactory.create(prefix + "\n" + queryString);
     }
 }

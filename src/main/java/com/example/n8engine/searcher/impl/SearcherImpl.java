@@ -6,6 +6,7 @@ import com.example.n8engine.model.Attribute;
 import com.example.n8engine.model.Entity;
 import com.example.n8engine.model.Value;
 import com.example.n8engine.query.QueryInterface;
+import com.example.n8engine.query.ResourceQuery;
 import com.example.n8engine.query.SearchQueryFactory;
 import com.example.n8engine.searcher.Searcher;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,6 +18,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashSet;
@@ -32,9 +34,11 @@ public class SearcherImpl implements Searcher {
 
     private final Dataset dataset;
     private final SearchQueryFactory searchQueryFactory;
+    private final ResourceQuery resourceQuery;
 
-    public SearcherImpl(Environment environment, SearchQueryFactory searchQueryFactory) {
+    public SearcherImpl(Environment environment, SearchQueryFactory searchQueryFactory, ResourceQuery resourceQuery) {
         this.searchQueryFactory = searchQueryFactory;
+        this.resourceQuery = resourceQuery;
         Path assemblerPath = Paths.get(Objects.requireNonNull(environment.getProperty("jena.resource.assembler-lucene")));
         String assemblerAbsolutPath = assemblerPath.toAbsolutePath().toString();
         String resourceURI = environment.getProperty("jena.resource.uri");
@@ -84,9 +88,27 @@ public class SearcherImpl implements Searcher {
         return entities;
     }
 
-    public Entity findEntityByURI(String UID) {
-        // TODO Implementare offers
-        return null;
+    public Entity findEntityByURI(String URI) {
+        Entity entity = new Entity(URI);
+        try {
+            Query query = resourceQuery.findByEntityUri(URI);
+            try ( QueryExecution queryExecution = QueryExecutionFactory.create(query, this.getDataset())) {
+                ResultSet results = queryExecution.execSelect();
+                Set<Value> values = new HashSet<>();
+                while (results.hasNext()) {
+                    QuerySolution solution = results.nextSolution();
+                    String attributeName = solution.get("attribute").toString();
+                    String valueName = solution.get("value").toString();
+                    Attribute attribute = new Attribute(attributeName);
+                    Value value = new Value(valueName, attribute);
+                    values.add(value);
+                }
+                entity.setValues(values);
+            }
+        } catch (EntityNotFoundException e) {
+            log.error("URI not found: " + e.getMessage());
+        }
+        return entity;
     }
 
     private Boolean containsName(final Set<Entity> entities, final String name) {

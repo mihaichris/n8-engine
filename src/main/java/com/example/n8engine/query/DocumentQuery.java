@@ -34,4 +34,9 @@ public class DocumentQuery implements QueryInterface{
 
         return query;
     }
+
+    @Override
+    public Query findByEntityUri(String URI) {
+        return null;
+    }
 }
