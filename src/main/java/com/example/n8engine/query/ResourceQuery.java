@@ -26,7 +26,7 @@ public class ResourceQuery implements QueryInterface {
         String queryString = StrUtils.strjoinNL(
                 "SELECT DISTINCT ?entity ?attribute ?literal ?score ?graph "
                 , " WHERE {"
-                ,  "(?entity ?score ?literal ?graph ?attribute) text:query " + "\"" + searchQuery + "\"."
+                ,  "(?entity ?score ?literal ?graph ?attribute) text:query ( " + "\"" + searchQuery + "\" 'lang:' " + "en" + ")."
                 ,"}"
         );
 
@@ -39,7 +39,7 @@ public class ResourceQuery implements QueryInterface {
                 " "
         );
         String queryString = StrUtils.strjoinNL(
-                "SELECT DISTINCT ?entity ?attribute ?value"
+                "SELECT DISTINCT ?attribute ?value"
                 , " WHERE {"
                 ,  URI + " ?attribute ?value."
                 ,"}"

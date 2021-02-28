@@ -8,6 +8,6 @@ import java.util.Set;
 
 public interface Searcher {
     Dataset getDataset();
-    Entity findEntityByURI(String UID);
+    Entity findEntityByURI(String URI);
     Set<Entity> getEntitiesBySearchQuery(SearchType searchType, String searchQuery);
 }

@@ -1,5 +1,6 @@
 package com.example.n8engine.searcher.impl;
 
+import com.example.n8engine.domain.Searches;
 import com.example.n8engine.enumeration.SearchType;
 import com.example.n8engine.exception.SearchTypeNotFoundException;
 import com.example.n8engine.model.Attribute;
@@ -8,6 +9,7 @@ import com.example.n8engine.model.Value;
 import com.example.n8engine.query.QueryInterface;
 import com.example.n8engine.query.ResourceQuery;
 import com.example.n8engine.query.SearchQueryFactory;
+import com.example.n8engine.repository.SearchesRepository;
 import com.example.n8engine.searcher.Searcher;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import ioinformarics.oss.jackson.module.jsonld.JsonldModule;
@@ -16,7 +18,6 @@ import org.apache.jena.query.*;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.nio.file.Path;
@@ -28,17 +29,18 @@ import java.util.Set;
 
 @Service
 @Slf4j
-@Transactional
 @Qualifier("searcher")
 public class SearcherImpl implements Searcher {
 
     private final Dataset dataset;
     private final SearchQueryFactory searchQueryFactory;
     private final ResourceQuery resourceQuery;
+    private final SearchesRepository searchesRepository;
 
-    public SearcherImpl(Environment environment, SearchQueryFactory searchQueryFactory, ResourceQuery resourceQuery) {
+    public SearcherImpl(Environment environment, SearchQueryFactory searchQueryFactory, ResourceQuery resourceQuery, SearchesRepository searchesRepository) {
         this.searchQueryFactory = searchQueryFactory;
         this.resourceQuery = resourceQuery;
+        this.searchesRepository = searchesRepository;
         Path assemblerPath = Paths.get(Objects.requireNonNull(environment.getProperty("jena.resource.assembler-lucene")));
         String assemblerAbsolutPath = assemblerPath.toAbsolutePath().toString();
         String resourceURI = environment.getProperty("jena.resource.uri");
@@ -55,6 +57,8 @@ public class SearcherImpl implements Searcher {
         try {
             QueryInterface queryFactory = searchQueryFactory.create(searchType);
             Query query = queryFactory.search(searchQuery);
+            long startTime = System.currentTimeMillis() ;
+            this.getDataset().begin(ReadWrite.READ);
             try ( QueryExecution queryExecution = QueryExecutionFactory.create(query, this.getDataset())) {
                 ResultSet results = queryExecution.execSelect();
                 while (results.hasNext()) {
@@ -81,18 +85,25 @@ public class SearcherImpl implements Searcher {
                     entity.setScore(score);
                     entities.add(entity);
                 }
+            } finally {
+                this.getDataset().end();
             }
+            long finishTime = System.currentTimeMillis();
+            long queryRunningTime = finishTime - startTime;
+            searchesRepository.save(new Searches(searchQuery, queryRunningTime));
         } catch (SearchTypeNotFoundException e) {
             log.error("Search Type not found: " + e.getMessage());
         }
         return entities;
     }
 
+
     public Entity findEntityByURI(String URI) {
         Entity entity = new Entity(URI);
         try {
             Query query = resourceQuery.findByEntityUri(URI);
-            try ( QueryExecution queryExecution = QueryExecutionFactory.create(query, this.getDataset())) {
+            this.getDataset().begin(ReadWrite.READ);
+            try (QueryExecution queryExecution = QueryExecutionFactory.create(query, this.getDataset())) {
                 ResultSet results = queryExecution.execSelect();
                 Set<Value> values = new HashSet<>();
                 while (results.hasNext()) {
@@ -104,6 +115,8 @@ public class SearcherImpl implements Searcher {
                     values.add(value);
                 }
                 entity.setValues(values);
+            }finally {
+                this.getDataset().end();
             }
         } catch (EntityNotFoundException e) {
             log.error("URI not found: " + e.getMessage());

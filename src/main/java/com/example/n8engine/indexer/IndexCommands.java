@@ -47,15 +47,14 @@ public class IndexCommands {
     public Integer indexFromDb() {
         log.info("Indexing all from resource table.");
         List<Resource> resourceList = resourceRepository.findAll();
-        try {
-            Dataset ds = this.searcher.getDataset();
-            for (Resource resource: resourceList) {
+        Dataset ds = this.searcher.getDataset();
+        for (Resource resource: resourceList) {
+            try {
                 loadData(ds, resource.getUri());
                 log.info("Indexed: " + resource.getUri());
+            } catch (Exception exception) {
+                log.error("Operation failed for resource: " + resource +  ":" + exception.toString());
             }
-        } catch (AssemblerException exception) {
-            log.error("Operation failed: " + exception.getMessage());
-            return 1;
         }
         return 0;
     }
@@ -74,5 +73,12 @@ public class IndexCommands {
         long finishTime = System.nanoTime();
         double time = (finishTime - startTime) / 1.0e6;
         log.info(String.format("Finish loading - %.2fms", time));
+    }
+
+    private void saveIFNotExists(Resource newResource) {
+        Resource resource = resourceRepository.findByUri(newResource.getUri());
+        if (resource != null) {
+            resourceRepository.save(newResource);
+        }
     }
 }

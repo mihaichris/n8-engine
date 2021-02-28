@@ -95,6 +95,8 @@
     <orderEntry type="library" name="Maven: org.slf4j:jcl-over-slf4j:1.7.30" level="project" />
     <orderEntry type="library" name="Maven: commons-io:commons-io:2.6" level="project" />
     <orderEntry type="library" name="Maven: org.apache.lucene:lucene-core:7.7.2" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-suggest:7.7.2" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-analyzers-common:7.7.2" level="project" />
     <orderEntry type="library" name="Maven: org.json:json:20201115" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-data-jpa:2.4.0" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-aop:2.4.0" level="project" />
@@ -257,7 +259,6 @@
     <orderEntry type="library" name="Maven: org.apache.jena:jena-querybuilder:3.16.0" level="project" />
     <orderEntry type="library" name="Maven: org.apache.jena:jena-text:3.16.0" level="project" />
     <orderEntry type="library" name="Maven: org.apache.jena:jena-cmds:3.16.0" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-analyzers-common:7.7.2" level="project" />
     <orderEntry type="library" name="Maven: org.apache.lucene:lucene-queryparser:7.7.2" level="project" />
     <orderEntry type="library" name="Maven: org.apache.lucene:lucene-queries:7.7.2" level="project" />
     <orderEntry type="library" name="Maven: org.apache.lucene:lucene-sandbox:7.7.2" level="project" />
@@ -279,7 +280,6 @@
     <orderEntry type="library" name="Maven: org.apache.lucene:lucene-misc:8.6.2" level="project" />
     <orderEntry type="library" name="Maven: org.apache.lucene:lucene-spatial-extras:8.6.2" level="project" />
     <orderEntry type="library" name="Maven: org.apache.lucene:lucene-spatial3d:8.6.2" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-suggest:8.6.2" level="project" />
     <orderEntry type="library" name="Maven: org.elasticsearch:elasticsearch-cli:7.9.3" level="project" />
     <orderEntry type="library" name="Maven: net.sf.jopt-simple:jopt-simple:5.0.2" level="project" />
     <orderEntry type="library" name="Maven: com.carrotsearch:hppc:0.8.1" level="project" />

@@ -17,4 +17,15 @@ public class Searches implements Serializable {
     private long Id;
 
     private String search;
+
+    private Long queryRunningTime;
+
+    public Searches(String search, Long queryRunningTime) {
+        this.search = search;
+        this.queryRunningTime = queryRunningTime;
+    }
+
+    public Searches() {
+
+    }
 }

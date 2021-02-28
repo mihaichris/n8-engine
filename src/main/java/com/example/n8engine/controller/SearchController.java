@@ -8,7 +8,10 @@ import com.example.n8engine.searcher.Searcher;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.HashSet;
@@ -39,17 +42,6 @@ final public class SearchController {
                 entitiesJsonLd.add(jsonObject);
             }
             return entitiesJsonLd;
-        } catch (Exception exception) {
-            log.error(exception.getMessage());
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, exception.getMessage(), exception);
-        }
-    }
-
-    @GetMapping("/{URI}")
-    public  Object findByEntity(@PathVariable String URI) {
-        try {
-            Entity entity = this.searcher.findEntityByURI(URI);
-            return this.jsonLdMapper.mapFromEntity(entity);
         } catch (Exception exception) {
             log.error(exception.getMessage());
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, exception.getMessage(), exception);
