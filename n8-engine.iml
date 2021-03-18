@@ -256,16 +256,16 @@
     <orderEntry type="library" name="Maven: org.apache.jena:jena-dboe-base:3.16.0" level="project" />
     <orderEntry type="library" name="Maven: org.apache.jena:jena-dboe-index:3.16.0" level="project" />
     <orderEntry type="library" name="Maven: org.apache.jena:jena-rdfconnection:3.16.0" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.jena:jena-querybuilder:3.16.0" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.jena:jena-text:3.16.0" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.jena:jena-cmds:3.16.0" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-queryparser:7.7.2" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-queries:7.7.2" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-sandbox:7.7.2" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-highlighter:7.7.2" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-join:7.7.2" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-memory:7.7.2" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-backward-codecs:7.7.2" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.jena:jena-querybuilder:3.17.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.jena:jena-text:3.17.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.jena:jena-cmds:3.17.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-queryparser:7.7.3" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-queries:7.7.3" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-sandbox:7.7.3" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-highlighter:7.7.3" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-join:7.7.3" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-memory:7.7.3" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-backward-codecs:7.7.3" level="project" />
     <orderEntry type="library" name="Maven: org.apache.jena:jena-text-es:3.16.0" level="project" />
     <orderEntry type="library" name="Maven: org.elasticsearch.client:transport:7.9.3" level="project" />
     <orderEntry type="library" name="Maven: org.elasticsearch:elasticsearch:7.9.3" level="project" />

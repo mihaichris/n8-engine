@@ -24,6 +24,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 
 
@@ -90,11 +91,23 @@ public class SearcherImpl implements Searcher {
             }
             long finishTime = System.currentTimeMillis();
             long queryRunningTime = finishTime - startTime;
-            searchesRepository.save(new Searches(searchQuery, queryRunningTime));
+            saveSearchIfNotExists(searchQuery, queryRunningTime);
         } catch (SearchTypeNotFoundException e) {
             log.error("Search Type not found: " + e.getMessage());
         }
+        log.debug(entities.toString());
         return entities;
+    }
+
+    private void saveSearchIfNotExists(String searchQuery, long queryRunningTime) {
+        Optional<Searches> searches = searchesRepository.findBySearch(searchQuery);
+        if (searches.isEmpty()) {
+            searchesRepository.save(new Searches(searchQuery, queryRunningTime));
+        } else {
+            Searches searchesPresent = searches.get();
+            searchesPresent.setQueryRunningTime(queryRunningTime);
+            searchesRepository.save(searchesPresent);
+        }
     }
 
 

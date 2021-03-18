@@ -1,5 +1,5 @@
-PREFIX :       <http://n8.org/#>
-PREFIX fuseki: <http://jena.apache.org/fuseki#>
+PREFIX :        <http://n8.org/#>
+PREFIX fuseki:  <http://jena.apache.org/fuseki#>
 PREFIX rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX rdfs:    <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX ja:      <http://jena.hpl.hp.com/2005/11/Assembler#>
@@ -8,90 +8,93 @@ PREFIX text:    <http://jena.apache.org/text#>
 PREFIX dc:      <http://purl.org/dc/elements/1.1/>
 
 
-[] rdf:type fuseki:Server ;
-   fuseki:services (
-                       :service
-                   ) .
+[]
+    rdf:type        fuseki:Server ;
+    fuseki:services ( :service ) .
 
 ## Service description for "/dataset"
 ## with a TDB2 dataset and a text index.
 
-:service rdf:type fuseki:Service ;
-         fuseki:name "dataset" ;
-         fuseki:endpoint [
-                             fuseki:operation fuseki:query ;
-                             fuseki:name "sparql"
-                         ];
-         fuseki:endpoint [
-                             fuseki:operation fuseki:query ;
-                             fuseki:name "query"
-                         ] ;
-         fuseki:endpoint [
-                             fuseki:operation fuseki:update ;
-                             fuseki:name "update"
-                         ] ;
-         fuseki:endpoint [
-                             fuseki:operation fuseki:gsp-r ;
-                             fuseki:name "get"
-                         ] ;
-         fuseki:endpoint [
-                             fuseki:operation fuseki:gsp-rw ;
-                             fuseki:name "data"
-                         ] ;
-         fuseki:endpoint [
-                             fuseki:operation fuseki:upload ;
-                             fuseki:name "upload"
-                         ] ;
-         fuseki:dataset :text_dataset ;
+:service
+    rdf:type        fuseki:Service ;
+    fuseki:name     "dataset" ;
+    fuseki:endpoint [ fuseki:operation fuseki:query ;
+                      fuseki:name      "sparql" ] ;
+    fuseki:endpoint [ fuseki:operation fuseki:query ;
+                      fuseki:name      "query" ] ;
+    fuseki:endpoint [ fuseki:operation fuseki:update ;
+                      fuseki:name      "update" ] ;
+    fuseki:endpoint [ fuseki:operation fuseki:gsp-r ;
+                      fuseki:name      "get" ] ;
+    fuseki:endpoint [ fuseki:operation fuseki:gsp-rw ;
+                      fuseki:name      "data" ] ;
+    fuseki:endpoint [ fuseki:operation fuseki:upload ;
+                      fuseki:name      "upload" ] ;
+    fuseki:dataset  :text_dataset ;
 .
 
 # TDB
-[] ja:loadClass "org.apache.jena.tdb2.TDB2" .
-tdb2:DatasetTDB rdfs:subClassOf ja:RDFDataset .
-tdb2:GraphTDB rdfs:subClassOf ja:Model .
+[]
+    ja:loadClass "org.apache.jena.tdb2.TDB2" .
+
+tdb2:DatasetTDB
+    rdfs:subClassOf ja:RDFDataset .
+
+tdb2:GraphTDB
+    rdfs:subClassOf ja:Model .
 
 # Text
-[] ja:loadClass       "org.apache.jena.query.text.TextQuery" .
-text:TextDataset      rdfs:subClassOf   ja:RDFDataset .
-text:TextIndexLucene  rdfs:subClassOf   text:TextIndex .
+[]
+    ja:loadClass "org.apache.jena.query.text.TextQuery" .
+
+text:TextDataset
+    rdfs:subClassOf ja:RDFDataset .
+
+text:TextIndexLucene
+    rdfs:subClassOf text:TextIndex .
 
 ## ---------------------------------------------------------------
 ## This URI must be fixed - it's used to assemble the text dataset.
 
-:text_dataset rdf:type     text:TextDataset ;
-              text:dataset   :base_dataset ;
-              text:index     :indexLucene ;
+:text_dataset
+    rdf:type     text:TextDataset ;
+    text:dataset :base_dataset ;
+    text:index   :indexLucene ;
 .
 
-:base_dataset rdf:type     tdb2:DatasetTDB2 ;
-              tdb2:location "E:/Java Projects/n8-engine/src/main/resources/tdb2/lucene"
+:base_dataset
+    rdf:type      tdb2:DatasetTDB2 ;
+    tdb2:location "E:/Java Projects/n8-engine/src/main/resources/tdb2/lucene"
 .
 
-:indexLucene a              text:TextIndexLucene ;
-    text:directory "E:/Java Projects/n8-engine/src/main/resources/index/lucene" ;
-    text:storeValues true ;
-    text:analyzer [ a text:StandardAnalyzer ] ;
-    text:queryAnalyzer [ a text:KeywordAnalyzer ] ;
-    text:queryParser text:ComplexPhraseQueryParser ;
+:indexLucene
+    a                        text:TextIndexLucene ;
+    text:directory           "E:/Java Projects/n8-engine/src/main/resources/index/lucene" ;
+    text:storeValues         true ;
+    text:analyzer            [ a text:StandardAnalyzer ] ;
+    text:queryAnalyzer       [ a text:KeywordAnalyzer ] ;
+    text:queryParser         text:ComplexPhraseQueryParser ;
 #    text:propLists ( [ . . . ] . . . ) ;
-    text:entityMap :entMap ;
+    text:entityMap           :entMap ;
+    text:multilingualSupport true ;
 .
 
-:entMap a text:EntityMap ;
+:entMap
+    a                 text:EntityMap ;
     text:entityField  "uri" ;
     text:defaultField "text" ;
     text:graphField   "graph" ; ## enable graph-specific indexing
     text:uidField     "uid" ; ## Must be defined in the text:maps
     text:langField    "lang" ;
-    text:map          (
-                          [ text:field     "text" ;
-                            text:predicate  rdfs:label ]
-                          [ text:field     "text" ;
-                            text:predicate  dc:title ]
-                          [ text:field     "title" ;
-                            text:predicate  dc:title ]
-                          [ text:field     "description" ;
-                            text:predicate  dc:description ]
-                          [ text:field     "comment" ;
-                            text:predicate  rdfs:comment ]
-                         ) .
+    text:map          ( [ text:field     "text" ;
+                          text:predicate rdfs:label ;
+                          text:analyzer  [ a              text:StandardAnalyzer ;
+                                           text:stopWords ( "a" "an" "and" "but" ) ] ]
+                        [ text:field     "label" ;
+                          text:predicate rdfs:label ]
+                        [ text:field     "title" ;
+                          text:predicate dc:title ]
+                        [ text:field     "description" ;
+                          text:predicate dc:description ]
+                        [ text:field     "comment" ;
+                          text:predicate rdfs:comment ] ) .

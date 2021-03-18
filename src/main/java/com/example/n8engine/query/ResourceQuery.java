@@ -1,11 +1,13 @@
 package com.example.n8engine.query;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.jena.atlas.lib.StrUtils;
 import org.apache.jena.query.Query;
 import org.apache.jena.query.QueryFactory;
 import org.springframework.stereotype.Component;
 
+@Slf4j
 @Component
 @AllArgsConstructor
 public class ResourceQuery implements QueryInterface {
@@ -26,11 +28,12 @@ public class ResourceQuery implements QueryInterface {
         String queryString = StrUtils.strjoinNL(
                 "SELECT DISTINCT ?entity ?attribute ?literal ?score ?graph "
                 , " WHERE {"
-                ,  "(?entity ?score ?literal ?graph ?attribute) text:query ( " + "\"" + searchQuery + "\" 'lang:' " + "en" + ")."
+                ,  "(?entity ?score ?literal ?graph ?attribute) text:query ( " + "\"" + searchQuery + "\" 'lang:" + "en" + "')."
                 ,"}"
         );
-
-        return QueryFactory.create(prefix + "\n" + queryString);
+        String query = prefix + "\n" + queryString;
+        log.debug(query);
+        return QueryFactory.create(query);
     }
 
     @Override

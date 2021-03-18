@@ -15,6 +15,7 @@ import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @ShellComponent
@@ -35,7 +36,7 @@ public class IndexCommands {
         try {
             Dataset ds = this.searcher.getDataset();
             loadData(ds, source);
-            resourceRepository.save(new Resource(source));
+            saveIFNotExists(source);
         } catch (AssemblerException exception) {
             log.error("Operation failed: " + exception.getMessage());
             return 1;
@@ -75,9 +76,11 @@ public class IndexCommands {
         log.info(String.format("Finish loading - %.2fms", time));
     }
 
-    private void saveIFNotExists(Resource newResource) {
-        Resource resource = resourceRepository.findByUri(newResource.getUri());
-        if (resource != null) {
+    private void saveIFNotExists(String source) {
+        Optional<Resource> resource = resourceRepository.findByUri(source);
+        if (resource.isEmpty()) {
+            Resource newResource = new Resource();
+            newResource.setUri(source);
             resourceRepository.save(newResource);
         }
     }
