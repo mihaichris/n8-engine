@@ -1,3 +1,5 @@
+index/
+tdb2/
 target/
 !.mvn/wrapper/maven-wrapper.jar
 

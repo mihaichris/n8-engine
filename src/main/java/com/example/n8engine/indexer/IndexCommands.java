@@ -52,6 +52,7 @@ public class IndexCommands {
         for (Resource resource: resourceList) {
             try {
                 loadData(ds, resource.getUri());
+                saveIFNotExists(resource.getUri());
                 log.info("Indexed: " + resource.getUri());
             } catch (Exception exception) {
                 log.error("Operation failed for resource: " + resource +  ":" + exception.toString());
