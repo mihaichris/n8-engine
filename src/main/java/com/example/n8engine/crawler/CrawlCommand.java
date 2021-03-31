@@ -17,7 +17,7 @@ public class CrawlCommand {
     }
 
 
-    @ShellMethod("Crawl semantic web documents and index them in TDB store.")
+    @ShellMethod("Crawl com.example.n8engine.semantic web documents and index them in TDB store.")
     public void crawl() throws Exception {
         File crawlStorage = new File("src/main/resources/crawler");
         CrawlConfig config = new CrawlConfig();
