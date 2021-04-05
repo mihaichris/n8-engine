@@ -71,17 +71,12 @@ text:TextIndexLucene
     a                        text:TextIndexLucene ;
     text:directory           "E:/Java Projects/n8-engine/src/main/resources/index/lucene" ;
     text:storeValues         true ;
-    text:analyzer            [ a text:SimpleAnalyzer ] ;
-    text:queryAnalyzer       [
-                                 a text:ConfigurableAnalyzer ;
-                                 text:tokenizer text:KeywordTokenizer ;
-                                 text:filters (text:ASCIIFoldingFilter text:LowerCaseFilter)
-                             ] ;
-#        text:analyzer  [ a              text:GenericAnalyzer ;
-#                         text:class "com.example.n8engine.semantic.analyzer.SemanticAnalyzer" ;
-#                       ];
-#            text:queryAnalyzer [a              text:GenericAnalyzer ;
-#                                text:class "com.example.n8engine.semantic.analyzer.SemanticAnalyzer" ];
+    text:analyzer            [ a          text:GenericAnalyzer ;
+                               text:class "com.example.n8engine.semantic.analyzer.SemanticAnalyzer" ; ] ;
+#    text:queryAnalyzer       [ a text:LowerCaseKeywordAnalyzer ] ;
+#    text:queryAnalyzer       [ a              text:ConfigurableAnalyzer ;
+#                               text:tokenizer text:KeywordTokenizer ;
+#                               text:filters   ( text:ASCIIFoldingFilter text:LowerCaseFilter ) ; ] ;
     text:queryParser         text:ComplexPhraseQueryParser ;
 #    text:propLists ( [ . . . ] . . . ) ;
     text:entityMap           :entMap ;
@@ -92,35 +87,16 @@ text:TextIndexLucene
     a                 text:EntityMap ;
     text:entityField  "uri" ;
     text:defaultField "text" ;
-    text:graphField   "graph" ; ## enable graph-specific indexing
-    text:uidField     "uid" ; ## Must be defined in the text:maps
+    text:graphField   "graph" ;
+    text:uidField     "uid" ;
     text:langField    "lang" ;
-    text:map          (
-                          [ text:field     "text" ;
-                          text:predicate rdfs:label ;
-#                          text:analyzer  [ a              text:GenericAnalyzer ;
-#                                               text:class "com.example.n8engine.semantic.analyzer.SemanticAnalyzer" ;
-##                                           text:class "com.example.n8engine.semantic.analyzer.SemanticAnalyzer" ;
-##                                           text:stopWords ( "a" "an" "and" "but" )
-#                                         ]
-#                                text:analyzer [
-#                                                  a text:GenericAnalyzer ;
-#                                                  text:class "org.apache.lucene.analysis.en.EnglishAnalyzer" ;
-#                                                  text:params (
-#                                                        [ text:paramName "stopwords" ;
-#                                                          text:paramType text:TypeSet ;
-#                                                          text:paramValue ("the" "a" "an") ]
-#                                                        [ text:paramName "stemExclusionSet" ;
-#                                                          text:paramType text:TypeSet ;
-#                                                          text:paramValue ("ing" "ed") ]
-#                                                    )
-#                                              ]
-                        ]
+    text:map          ( [ text:field     "text" ;
+                          text:predicate rdfs:label ; ]
                         [ text:field     "label" ;
-                          text:predicate rdfs:label ]
+                          text:predicate rdfs:label ; ]
                         [ text:field     "title" ;
                           text:predicate dc:title ]
                         [ text:field     "description" ;
                           text:predicate dc:description ]
                         [ text:field     "comment" ;
-                          text:predicate rdfs:comment ] ) .
+                          text:predicate rdfs:comment ; ] ) .

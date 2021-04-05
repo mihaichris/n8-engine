@@ -5,6 +5,7 @@ import com.example.n8engine.enumeration.SearchType;
 import com.example.n8engine.mapper.JsonLdMapper;
 import com.example.n8engine.model.Entity;
 import com.example.n8engine.searcher.Searcher;
+import com.example.n8engine.service.PhraseService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -24,10 +25,12 @@ final public class SearchController {
 
     private final Searcher searcher;
     private final JsonLdMapper jsonLdMapper;
+    private final PhraseService phraseService;
 
-    public SearchController(@Qualifier("searcher") Searcher searcher, JsonLdMapper jsonLdMapper) {
+    public SearchController(@Qualifier("searcher") Searcher searcher, JsonLdMapper jsonLdMapper, PhraseService phraseService) {
         this.searcher = searcher;
         this.jsonLdMapper = jsonLdMapper;
+        this.phraseService = phraseService;
     }
 
     @PostMapping()
@@ -36,7 +39,8 @@ final public class SearchController {
         try {
             SearchType searchType = searchRequest.getSearchType();
             String searchQuery = searchRequest.getSearchQuery();
-            Set<Entity> entities = this.searcher.getEntitiesBySearchQuery(searchType, searchQuery);
+            String preparedPhraseQuery = phraseService.cleanPhrase(searchQuery);
+            Set<Entity> entities = this.searcher.getEntitiesBySearchQuery(searchType, preparedPhraseQuery);
             for (Entity entity: entities) {
                 Object jsonObject = this.jsonLdMapper.mapFromEntity(entity);
                 entitiesJsonLd.add(jsonObject);

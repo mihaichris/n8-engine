@@ -32,7 +32,7 @@ public class ResourceQuery implements QueryInterface {
                 ,"}"
         );
         String query = prefix + "\n" + queryString;
-        log.debug(query);
+        log.info(query);
         return QueryFactory.create(query);
     }
 

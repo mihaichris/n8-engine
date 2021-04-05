@@ -62,29 +62,10 @@ public class SearcherImpl implements Searcher {
             this.getDataset().begin(ReadWrite.READ);
             try ( QueryExecution queryExecution = QueryExecutionFactory.create(query, this.getDataset())) {
                 ResultSet results = queryExecution.execSelect();
-                while (results.hasNext()) {
-                    QuerySolution solution = results.nextSolution();
-                    String entityName = solution.get("entity").toString();
-                    String attributeName = solution.get("attribute").toString();
-                    String valueName = solution.get("literal").toString();
-                    String score = solution.get("score").toString();
-                    String graph = solution.getResource("graph").toString();
-                    if (containsName(entities, entityName)) {
-                        Entity entity = findByNameInList(entities, entityName);
-                        entities.remove(entity);
-                        Attribute attribute = new Attribute(attributeName);
-                        Value value = new Value(valueName, attribute);
-                        entity.addValue(value);
-                        entities.add(entity);
-                        continue;
-                    }
-                    Entity entity = new Entity(entityName);
-                    Attribute attribute = new Attribute(attributeName);
-                    Value value = new Value(valueName, attribute);
-                    entity.addValue(value);
-                    entity.setGraph(graph);
-                    entity.setScore(score);
-                    entities.add(entity);
+                buildEntitiesFromResults(entities, results);
+                if (entities.isEmpty()) {
+                    String fallbackSearchQuery = "+" + searchQuery + "*";
+                    return this.getEntitiesBySearchQuery(searchType, fallbackSearchQuery);
                 }
             } finally {
                 this.getDataset().end();
@@ -95,8 +76,35 @@ public class SearcherImpl implements Searcher {
         } catch (SearchTypeNotFoundException e) {
             log.error("Search Type not found: " + e.getMessage());
         }
-        log.debug(entities.toString());
+        log.info(entities.toString());
         return entities;
+    }
+
+    private void buildEntitiesFromResults(Set<Entity> entities, ResultSet results) {
+        while (results.hasNext()) {
+            QuerySolution solution = results.nextSolution();
+            String entityName = solution.get("entity").toString();
+            String attributeName = solution.get("attribute").toString();
+            String valueName = solution.get("literal").toString();
+            String score = solution.get("score").toString();
+            String graph = solution.getResource("graph").toString();
+            if (containsName(entities, entityName)) {
+                Entity entity = findByNameInList(entities, entityName);
+                entities.remove(entity);
+                Attribute attribute = new Attribute(attributeName);
+                Value value = new Value(valueName, attribute);
+                entity.addValue(value);
+                entities.add(entity);
+                continue;
+            }
+            Entity entity = new Entity(entityName);
+            Attribute attribute = new Attribute(attributeName);
+            Value value = new Value(valueName, attribute);
+            entity.addValue(value);
+            entity.setGraph(graph);
+            entity.setScore(score);
+            entities.add(entity);
+        }
     }
 
     private void saveSearchIfNotExists(String searchQuery, long queryRunningTime) {
