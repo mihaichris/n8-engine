@@ -50,9 +50,8 @@
     <orderEntry type="library" name="Maven: org.springframework:spring-webmvc:5.3.1" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-aop:5.3.1" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-expression:5.3.1" level="project" />
-    <orderEntry type="library" name="Maven: org.xerial:sqlite-jdbc:3.32.3" level="project" />
     <orderEntry type="library" name="Maven: org.mapstruct:mapstruct:1.4.1.Final" level="project" />
-    <orderEntry type="library" name="Maven: com.github.jsonld-java:jsonld-java:0.13.0" level="project" />
+    <orderEntry type="library" name="Maven: com.github.jsonld-java:jsonld-java:0.13.2" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-core:2.11.3" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.11.3" level="project" />
     <orderEntry type="library" name="Maven: org.apache.httpcomponents:httpclient-osgi:4.5.13" level="project" />
@@ -60,15 +59,15 @@
     <orderEntry type="library" name="Maven: org.apache.httpcomponents:httpmime:4.5.13" level="project" />
     <orderEntry type="library" name="Maven: org.apache.httpcomponents:httpclient-cache:4.5.13" level="project" />
     <orderEntry type="library" name="Maven: org.apache.httpcomponents:fluent-hc:4.5.13" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.httpcomponents:httpcore-osgi:4.4.12" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.httpcomponents:httpcore-osgi:4.4.13" level="project" />
     <orderEntry type="library" name="Maven: org.apache.httpcomponents:httpcore:4.4.13" level="project" />
     <orderEntry type="library" name="Maven: org.apache.httpcomponents:httpcore-nio:4.4.13" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.30" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:jcl-over-slf4j:1.7.30" level="project" />
-    <orderEntry type="library" name="Maven: commons-io:commons-io:2.6" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-core:7.7.2" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-suggest:7.7.2" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-analyzers-common:7.7.2" level="project" />
+    <orderEntry type="library" name="Maven: commons-io:commons-io:2.8.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-core:8.8.1" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-suggest:8.8.1" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-analyzers-common:8.8.1" level="project" />
     <orderEntry type="library" name="Maven: org.json:json:20201115" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-data-jpa:2.4.0" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-aop:2.4.0" level="project" />
@@ -213,38 +212,37 @@
     <orderEntry type="library" name="Maven: org.codehaus.plexus:plexus-utils:3.1.0" level="project" />
     <orderEntry type="library" name="Maven: org.sonatype.plexus:plexus-build-api:0.0.7" level="project" />
     <orderEntry type="library" name="Maven: org.mariadb.jdbc:mariadb-java-client:2.7.0" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.opennlp:opennlp-tools:1.9.2" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.jena:jena-shacl:3.16.0" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.jena:jena-arq:3.16.0" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.jena:jena-core:3.16.0" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.jena:jena-base:3.16.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.opennlp:opennlp-tools:1.9.3" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.jena:jena-shacl:4.0.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.jena:jena-arq:4.0.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.jena:jena-core:4.0.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.jena:jena-base:4.0.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.jena:jena-shaded-guava:4.0.0" level="project" />
     <orderEntry type="library" name="Maven: org.apache.commons:commons-csv:1.8" level="project" />
     <orderEntry type="library" name="Maven: com.github.andrewoma.dexx:collection:0.7" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.jena:jena-iri:3.16.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.jena:jena-iri:4.0.0" level="project" />
     <orderEntry type="library" name="Maven: commons-cli:commons-cli:1.4" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.jena:jena-shaded-guava:3.16.0" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.thrift:libthrift:0.13.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.thrift:libthrift:0.14.1" level="project" />
     <orderEntry type="library" name="Maven: javax.annotation:javax.annotation-api:1.3.2" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.jena:jena-tdb:3.16.0" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.jena:jena-tdb2:3.16.0" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.jena:jena-dboe-storage:3.16.0" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.jena:jena-dboe-trans-data:3.16.0" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.jena:jena-dboe-transaction:3.16.0" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.jena:jena-dboe-base:3.16.0" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.jena:jena-dboe-index:3.16.0" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.jena:jena-rdfconnection:3.16.0" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.jena:jena-querybuilder:3.17.0" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.jena:jena-text:3.17.0" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.jena:jena-cmds:3.17.0" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-queryparser:7.7.3" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-queries:7.7.3" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-sandbox:7.7.3" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-highlighter:7.7.3" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-join:7.7.3" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-memory:7.7.3" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-backward-codecs:7.7.3" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.jena:jena-fuseki-main:3.16.0" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.jena:jena-fuseki-core:3.16.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.jena:jena-tdb:4.0.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.jena:jena-tdb2:4.0.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.jena:jena-dboe-storage:4.0.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.jena:jena-dboe-trans-data:4.0.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.jena:jena-dboe-transaction:4.0.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.jena:jena-dboe-base:4.0.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.jena:jena-dboe-index:4.0.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.jena:jena-rdfconnection:4.0.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.jena:jena-querybuilder:4.0.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.jena:jena-text:4.0.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.jena:jena-cmds:4.0.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-queryparser:8.8.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-queries:8.8.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-sandbox:8.8.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-highlighter:8.8.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-memory:8.8.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-backward-codecs:8.8.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.jena:jena-fuseki-main:4.0.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.jena:jena-fuseki-core:4.0.0" level="project" />
     <orderEntry type="library" name="Maven: commons-fileupload:commons-fileupload:1.4" level="project" />
     <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-servlet:9.4.34.v20201102" level="project" />
     <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-security:9.4.34.v20201102" level="project" />
@@ -260,7 +258,7 @@
     <orderEntry type="library" name="Maven: io.micrometer:micrometer-registry-prometheus:1.6.1" level="project" />
     <orderEntry type="library" name="Maven: io.prometheus:simpleclient_common:0.9.0" level="project" />
     <orderEntry type="library" name="Maven: io.prometheus:simpleclient:0.9.0" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.jena:jena-fuseki-access:3.16.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.jena:jena-fuseki-access:4.0.0" level="project" />
     <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-xml:9.4.34.v20201102" level="project" />
     <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-util:9.4.34.v20201102" level="project" />
   </component>
