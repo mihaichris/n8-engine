@@ -14,8 +14,13 @@ import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @ShellComponent
@@ -56,6 +61,25 @@ public class IndexCommands {
                 log.info("Indexed: " + resource.getUri());
             } catch (Exception exception) {
                 log.error("Operation failed for resource: " + resource +  ":" + exception.toString());
+            }
+        }
+        return 0;
+    }
+
+    @ShellMethod("Index content from resource files.")
+    public Integer indexFromFiles() throws IOException {
+        log.info("Indexing all from resource files.");
+        List<Path> txtFiles = Files.walk(Paths.get("E:\\Java Projects\\n8-engine\\src\\main\\resources\\data"))
+                //use to string here, otherwise checking for path segments
+                .filter(p -> p.toString().endsWith(".nt"))
+                .collect(Collectors.toList());
+        Dataset ds = this.searcher.getDataset();
+        for (Path path: txtFiles) {
+            try {
+                loadData(ds, path.getFileName().toString());
+                log.info("Indexed: " + path.getFileName().toString());
+            } catch (Exception exception) {
+                log.error("Operation failed for resource: " + path.getFileName().toString() +  ":" + exception.toString());
             }
         }
         return 0;
