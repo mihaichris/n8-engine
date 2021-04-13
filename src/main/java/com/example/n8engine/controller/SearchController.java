@@ -40,7 +40,8 @@ final public class SearchController {
             SearchType searchType = searchRequest.getSearchType();
             String searchQuery = searchRequest.getSearchQuery();
             String preparedPhraseQuery = phraseService.cleanPhrase(searchQuery);
-            Set<Entity> entities = this.searcher.getEntitiesBySearchQuery(searchType, preparedPhraseQuery);
+            String languageCode = searchRequest.getLanguage();
+            Set<Entity> entities = this.searcher.getEntitiesBySearchQuery(searchRequest);
             for (Entity entity: entities) {
                 Object jsonObject = this.jsonLdMapper.mapFromEntity(entity);
                 entitiesJsonLd.add(jsonObject);

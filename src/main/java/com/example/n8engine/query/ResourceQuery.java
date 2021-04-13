@@ -16,9 +16,9 @@ public class ResourceQuery implements QueryInterface {
      * Search by all triples
      */
     @Override
-    public Query search(String searchQuery) {
+    public Query search(String searchQuery, String languageCode) {
         String prefix = StrUtils.strjoinNL(
-                "PREFIX n8: <http://n8.ro/#>"
+                "PREFIX n8: <http://n8.org/#>"
                 , "PREFIX text: <http://jena.apache.org/text#>"
                 , "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"
                 , "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>"
@@ -28,7 +28,7 @@ public class ResourceQuery implements QueryInterface {
         String queryString = StrUtils.strjoinNL(
                 "SELECT DISTINCT ?entity ?attribute ?literal ?score ?graph "
                 , " WHERE {"
-                ,  "(?entity ?score ?literal ?graph ?attribute) text:query ( " + "\"" + searchQuery + "\" 'lang:" + "en" + "')."
+                ,  "(?entity ?score ?literal ?graph ?attribute) text:query ( n8:text " + "\"" + searchQuery + "\" 'lang:" + languageCode + "')."
                 ,"}"
         );
         String query = prefix + "\n" + queryString;

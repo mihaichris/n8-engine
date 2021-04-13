@@ -10,9 +10,8 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 public class TermQuery implements QueryInterface {
 
-
     @Override
-    public Query search(String searchQuery) {
+    public Query search(String searchQuery, String languageCode) {
         String prefix = StrUtils.strjoinNL(
                 "PREFIX : <http://n8.ro/#>"
                 , "PREFIX text: <http://jena.apache.org/text#>"

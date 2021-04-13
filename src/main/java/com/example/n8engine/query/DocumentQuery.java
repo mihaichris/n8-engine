@@ -14,7 +14,7 @@ public class DocumentQuery implements QueryInterface{
      * Search only by ontologies
      */
     @Override
-    public Query search(String searchQuery) {
+    public Query search(String searchQuery, String languageCode) {
         String prefix = StrUtils.strjoinNL(
                 "PREFIX : <http://n8.ro/#>"
                 , "PREFIX text: <http://jena.apache.org/text#>"
