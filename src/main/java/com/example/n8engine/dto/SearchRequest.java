@@ -7,5 +7,5 @@ import lombok.Data;
 public class SearchRequest {
     private String searchQuery;
     private SearchType searchType;
-    private String language;
+    private String language = "en";
 }

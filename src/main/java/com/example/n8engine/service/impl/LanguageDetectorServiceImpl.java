@@ -20,9 +20,8 @@ public class LanguageDetectorServiceImpl implements LanguageDetectorService {
     private LanguageDetector categorizer;
 
     public LanguageDetectorServiceImpl(Environment environment) {
-        String modelPath = environment.getProperty("opennlp.model.languages.detector.path");
         try {
-            assert modelPath != null;
+            String modelPath = environment.getProperty("opennlp.model.languages.detector.path");
             try(InputStream is = new FileInputStream(modelPath)) {
                 LanguageDetectorModel m = new LanguageDetectorModel(is);
                 this.categorizer = new LanguageDetectorME(m);

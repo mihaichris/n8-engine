@@ -1,7 +1,9 @@
 package com.example.n8engine.query;
 
 import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.jena.arq.querybuilder.SelectBuilder;
 import org.apache.jena.atlas.lib.StrUtils;
 import org.apache.jena.query.Query;
 import org.apache.jena.query.QueryFactory;
@@ -49,5 +51,17 @@ public class ResourceQuery implements QueryInterface {
         );
 
         return QueryFactory.create(prefix + "\n" + queryString);
+    }
+
+    @Override
+    @SneakyThrows
+    public Query findOntologyProperties(String URI) {
+        SelectBuilder selectBuilder = new SelectBuilder()
+                .addPrefix("ns", URI)
+                .addVar( "*" )
+                .addWhere( "?s", "?p", "?o" )
+                .addFilter("isURI(?s) && STRSTARTS(str(?s), str(ns:)");
+
+        return selectBuilder.build();
     }
 }

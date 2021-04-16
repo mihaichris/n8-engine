@@ -9,5 +9,6 @@ import java.util.Set;
 public interface Searcher {
     Dataset getDataset();
     Entity findEntityByURI(String URI);
+    Set<Entity> findOntologyPropertiesByURI(String URI);
     Set<Entity> getEntitiesBySearchQuery(SearchRequest searchRequest);
 }

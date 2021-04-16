@@ -39,4 +39,9 @@ public class DocumentQuery implements QueryInterface{
     public Query findByEntityUri(String URI) {
         return null;
     }
+
+    @Override
+    public Query findOntologyProperties(String URI) {
+        return null;
+    }
 }

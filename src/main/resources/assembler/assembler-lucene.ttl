@@ -102,9 +102,11 @@ n8:entMap
     text:uidField     "uid" ;
     text:langField    "lang" ;
     text:map          ( [ text:field     "text" ;
+                          text:predicate rdfs:label ]
+                        [ text:field     "textComposed" ;
                           text:predicate n8:text ]
                         [ text:field     "label" ;
-                          text:predicate n8:label ]
+                          text:predicate n8:label  ]
                         [ text:field     "preservedLabel" ;
                           text:predicate rdfs:label  ]
                         [ text:field     "title" ;

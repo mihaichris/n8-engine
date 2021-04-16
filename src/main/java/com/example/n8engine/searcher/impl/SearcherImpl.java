@@ -13,6 +13,7 @@ import com.example.n8engine.query.SearchQueryFactory;
 import com.example.n8engine.repository.SearchesRepository;
 import com.example.n8engine.searcher.Searcher;
 import com.example.n8engine.service.LanguageDetectorService;
+import com.example.n8engine.service.PhraseService;
 import lombok.extern.slf4j.Slf4j;
 import opennlp.tools.langdetect.Language;
 import org.apache.jena.query.*;
@@ -36,13 +37,15 @@ public class SearcherImpl implements Searcher {
     private final ResourceQuery resourceQuery;
     private final SearchesRepository searchesRepository;
     private final LanguageDetectorService languageDetectorService;
+    private final PhraseService phraseService;
     private Integer maxRetries = 0;
 
-    public SearcherImpl(Environment environment, SearchQueryFactory searchQueryFactory, ResourceQuery resourceQuery, SearchesRepository searchesRepository, LanguageDetectorService languageDetectorService) {
+    public SearcherImpl(Environment environment, SearchQueryFactory searchQueryFactory, ResourceQuery resourceQuery, SearchesRepository searchesRepository, LanguageDetectorService languageDetectorService, PhraseService phraseService) {
         this.searchQueryFactory = searchQueryFactory;
         this.resourceQuery = resourceQuery;
         this.searchesRepository = searchesRepository;
         this.languageDetectorService = languageDetectorService;
+        this.phraseService = phraseService;
         Path assemblerPath = Paths.get(Objects.requireNonNull(environment.getProperty("jena.resource.assembler-lucene")));
         String assemblerAbsolutPath = assemblerPath.toAbsolutePath().toString();
         String resourceURI = environment.getProperty("jena.resource.uri");
@@ -58,10 +61,11 @@ public class SearcherImpl implements Searcher {
         Set<Entity> entities = new HashSet<>();
         SearchType searchType = searchRequest.getSearchType();
         String searchQuery = searchRequest.getSearchQuery();
+        String preparedPhraseQuery = phraseService.cleanPhrase(searchQuery);
         String language = buildLanguage(searchRequest);
         try {
             QueryInterface queryFactory = searchQueryFactory.create(searchType);
-            Query query = queryFactory.search(searchQuery, language);
+            Query query = queryFactory.search(preparedPhraseQuery, language);
             long startTime = System.currentTimeMillis() ;
             this.getDataset().begin(ReadWrite.READ);
             try ( QueryExecution queryExecution = QueryExecutionFactory.create(query, this.getDataset())) {
@@ -77,7 +81,7 @@ public class SearcherImpl implements Searcher {
             log.error("Search Type not found: " + e.getMessage());
         }
 
-        if (entities.isEmpty() || this.maxRetries.equals(2)) {
+        if (entities.isEmpty() && !this.maxRetries.equals(2)) {
             this.maxRetries+=1;
             String fallbackSearchQuery = "*" + searchQuery + "*";
             searchRequest.setSearchQuery(fallbackSearchQuery);
@@ -92,7 +96,7 @@ public class SearcherImpl implements Searcher {
             return languageCode;
         }
         Language language = this.languageDetectorService.detectLanguage(searchRequest.getSearchQuery());
-        return language.getLang().toString().toLowerCase(Locale.ROOT).substring(0, 2);
+        return language.getLang().toLowerCase(Locale.ROOT).substring(0, 2);
     }
 
     private void buildEntitiesFromResults(Set<Entity> entities, ResultSet results) {
@@ -158,6 +162,11 @@ public class SearcherImpl implements Searcher {
             log.error("URI not found: " + e.getMessage());
         }
         return entity;
+    }
+
+    @Override
+    public Set<Entity> findOntologyPropertiesByURI(String URI) {
+        return null;
     }
 
     private Boolean containsName(final Set<Entity> entities, final String name) {
