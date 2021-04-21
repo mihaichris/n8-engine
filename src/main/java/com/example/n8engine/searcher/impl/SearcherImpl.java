@@ -112,6 +112,7 @@ public class SearcherImpl implements Searcher {
                 entities.remove(entity);
                 Attribute attribute = new Attribute(attributeName);
                 Value value = new Value(valueName, attribute);
+                value.setScore(score);
                 entity.addValue(value);
                 entities.add(entity);
                 continue;
@@ -119,9 +120,9 @@ public class SearcherImpl implements Searcher {
             Entity entity = new Entity(entityName);
             Attribute attribute = new Attribute(attributeName);
             Value value = new Value(valueName, attribute);
+            value.setScore(score);
             entity.addValue(value);
             entity.setGraph(graph);
-            entity.setScore(score);
             entities.add(entity);
         }
     }

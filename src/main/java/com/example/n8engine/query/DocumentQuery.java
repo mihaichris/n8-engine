@@ -16,7 +16,7 @@ public class DocumentQuery implements QueryInterface{
     @Override
     public Query search(String searchQuery, String languageCode) {
         String prefix = StrUtils.strjoinNL(
-                "PREFIX : <http://n8.ro/#>"
+                "PREFIX n8: <http://n8.org/#>"
                 , "PREFIX text: <http://jena.apache.org/text#>"
                 , "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"
                 , "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>"
@@ -27,10 +27,10 @@ public class DocumentQuery implements QueryInterface{
                 "SELECT DISTINCT ?entity ?attribute ?literal ?score ?graph "
                 , " WHERE {"
                 , " ?entity rdf:type owl:Ontology. "
-                ,  "(?entity ?score ?literal ?graph ?attribute) text:query " + "\"" + searchQuery + "\"."
+                ,  "(?entity ?score ?literal ?graph ?attribute) text:query ( n8:text " + "\"" + searchQuery + "\" 60 'lang:" + languageCode + "')."
                 ,"}"
         );
-        Query query = QueryFactory.create(prefix + "\n" + queryString);;
+        Query query = QueryFactory.create(prefix + "\n" + queryString);
 
         return query;
     }

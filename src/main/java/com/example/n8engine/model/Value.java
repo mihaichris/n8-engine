@@ -21,6 +21,8 @@ final public class Value {
     private String id;
     @JsonProperty("n:attribute")
     private Attribute attribute;
+    @JsonProperty("n:score")
+    private String score;
 
     public Value(String id, Attribute attribute) {
         this.attribute = attribute;

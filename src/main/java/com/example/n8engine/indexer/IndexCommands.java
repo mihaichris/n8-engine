@@ -67,20 +67,24 @@ public class IndexCommands {
             log.error("Operation failed: " + exception.getMessage());
             return 1;
         }
+
         return 0;
     }
 
     @ShellMethod("Index content from resource table.")
     public Integer indexFromDb() {
+        int i = 0;
         log.info("Indexing all from resource table.");
-        List<Resource> resourceList = resourceRepository.findAll();
+        List<Resource> resourceList = resourceRepository.findAllOrderedById();
         Dataset ds = this.searcher.getDataset();
         for (Resource resource : resourceList) {
             try {
                 log.info("Indexing: " + resource.getUri());
                 loadData(ds, resource.getUri());
-                loadSuggests(resource.getUri());
-                saveIFNotExists(resource.getUri());
+                //loadSuggests(resource.getUri());
+                i++;
+                log.info("Number of resource indexed:" + i);
+//                saveIFNotExists(resource.getUri());
             } catch (Exception exception) {
                 log.error("Operation failed for resource: " + resource + ":" + exception.toString());
             }

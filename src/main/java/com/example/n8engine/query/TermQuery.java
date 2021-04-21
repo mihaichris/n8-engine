@@ -13,7 +13,7 @@ public class TermQuery implements QueryInterface {
     @Override
     public Query search(String searchQuery, String languageCode) {
         String prefix = StrUtils.strjoinNL(
-                "PREFIX : <http://n8.ro/#>"
+                "PREFIX : <http://n8.org/#>"
                 , "PREFIX text: <http://jena.apache.org/text#>"
                 , "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"
                 , "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>"

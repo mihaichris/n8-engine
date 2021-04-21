@@ -15,7 +15,7 @@ public class SearchQueryFactory {
 
      public QueryInterface create(SearchType searchType) throws SearchTypeNotFoundException {
         switch (searchType) {
-            case DOCUMENTS:
+            case DOCUMENT:
                 return this.documentQuery;
             case RESOURCE:
                 return this.resourceQuery;

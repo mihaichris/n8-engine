@@ -26,8 +26,6 @@ final public class Entity {
     private String id;
     @JsonProperty("n:values")
     private Set<Value> values;
-    @JsonProperty("n:score")
-    private String score;
     @JsonProperty("n:graph")
     private String graph;
 
