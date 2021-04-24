@@ -20,7 +20,9 @@ public class Searches implements Serializable {
 
     private Long queryRunningTime;
 
-    public Searches(String search, Long queryRunningTime) {
+    private String type;
+
+    public Searches(String search, Long queryRunningTime, String type) {
         this.search = search;
         this.queryRunningTime = queryRunningTime;
     }

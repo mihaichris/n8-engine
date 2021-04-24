@@ -19,6 +19,7 @@ import opennlp.tools.langdetect.Language;
 import org.apache.jena.query.*;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.env.Environment;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -87,6 +88,7 @@ public class SearcherImpl implements Searcher {
             searchRequest.setSearchQuery(fallbackSearchQuery);
             return this.getEntitiesBySearchQuery(searchRequest);
         }
+        this.maxRetries = 0;
         return entities;
     }
 
@@ -127,10 +129,11 @@ public class SearcherImpl implements Searcher {
         }
     }
 
-    private void saveSearchIfNotExists(String searchQuery, long queryRunningTime) {
+    @Async
+    void saveSearchIfNotExists(String searchQuery, long queryRunningTime) {
         Optional<Searches> searches = searchesRepository.findBySearch(searchQuery);
         if (searches.isEmpty()) {
-            searchesRepository.save(new Searches(searchQuery, queryRunningTime));
+            searchesRepository.save(new Searches(searchQuery, queryRunningTime, "index"));
         } else {
             Searches searchesPresent = searches.get();
             searchesPresent.setQueryRunningTime(queryRunningTime);
@@ -171,10 +174,10 @@ public class SearcherImpl implements Searcher {
     }
 
     private Boolean containsName(final Set<Entity> entities, final String name) {
-        return entities.stream().map(Entity::getId).anyMatch(name::equals);
+        return entities.parallelStream().map(Entity::getId).anyMatch(name::equals);
     }
 
     private Entity findByNameInList(final Set<Entity> entities, final String name) {
-        return entities.stream().filter(entity -> name.equals(entity.getId())).findFirst().orElse(null);
+        return entities.parallelStream().filter(entity -> name.equals(entity.getId())).findFirst().orElse(null);
     }
 }
