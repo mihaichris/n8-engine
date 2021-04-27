@@ -67,9 +67,9 @@ public class SearcherImpl implements Searcher {
         try {
             QueryInterface queryFactory = searchQueryFactory.create(searchType);
             Query query = queryFactory.search(preparedPhraseQuery, language);
-            long startTime = System.currentTimeMillis() ;
+            long startTime = System.currentTimeMillis();
             this.getDataset().begin(ReadWrite.READ);
-            try ( QueryExecution queryExecution = QueryExecutionFactory.create(query, this.getDataset())) {
+            try (QueryExecution queryExecution = QueryExecutionFactory.create(query, this.getDataset())) {
                 ResultSet results = queryExecution.execSelect();
                 buildEntitiesFromResults(entities, results);
             } finally {
@@ -83,7 +83,7 @@ public class SearcherImpl implements Searcher {
         }
 
         if (entities.isEmpty() && !this.maxRetries.equals(2)) {
-            this.maxRetries+=1;
+            this.maxRetries += 1;
             String fallbackSearchQuery = "*" + searchQuery + "*";
             searchRequest.setSearchQuery(fallbackSearchQuery);
             return this.getEntitiesBySearchQuery(searchRequest);
@@ -159,7 +159,7 @@ public class SearcherImpl implements Searcher {
                     values.add(value);
                 }
                 entity.setValues(values);
-            }finally {
+            } finally {
                 this.getDataset().end();
             }
         } catch (EntityNotFoundException e) {
@@ -170,7 +170,16 @@ public class SearcherImpl implements Searcher {
 
     @Override
     public Set<Entity> findOntologyPropertiesByURI(String URI) {
-        return null;
+        Set<Entity> entities = new HashSet<>();
+        Query query = resourceQuery.findOntologyProperties(URI);
+        this.getDataset().begin(ReadWrite.READ);
+        try (QueryExecution queryExecution = QueryExecutionFactory.create(query, this.getDataset())) {
+            ResultSet results = queryExecution.execSelect();
+            buildEntitiesFromResults(entities, results);
+        } finally {
+            this.getDataset().end();
+        }
+        return entities;
     }
 
     private Boolean containsName(final Set<Entity> entities, final String name) {

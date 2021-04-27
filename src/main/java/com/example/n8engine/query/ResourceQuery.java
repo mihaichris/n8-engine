@@ -9,6 +9,9 @@ import org.apache.jena.query.Query;
 import org.apache.jena.query.QueryFactory;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
+import java.util.List;
+
 @Slf4j
 @Component
 @AllArgsConstructor
@@ -19,21 +22,19 @@ public class ResourceQuery implements QueryInterface {
      */
     @Override
     public Query search(String searchQuery, String languageCode) {
-        String prefix = StrUtils.strjoinNL(
-                "PREFIX n8: <http://n8.org/#>"
-                , "PREFIX text: <http://jena.apache.org/text#>"
-                , "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>"
-                , "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>"
-                , "PREFIX dc: <http://purl.org/dc/elements/1.1/>"
-                , "PREFIX owl: <http://www.w3.org/2002/07/owl#>"
-        );
+        String field = "n8:text";
+        List<String> splitSearchQuery = Arrays.asList(searchQuery.split(" "));
+        if (QueryInterface.FIELDS.contains(splitSearchQuery.get(0))) {
+            field = splitSearchQuery.get(0);
+        }
+
         String queryString = StrUtils.strjoinNL(
                 "SELECT DISTINCT ?entity ?attribute ?literal ?score ?graph "
                 , " WHERE {"
-                ,  "(?entity ?score ?literal ?graph ?attribute) text:query ( n8:text " + "\"" + searchQuery + "\" 60 'lang:" + languageCode + "' )."
+                ,  "(?entity ?score ?literal ?graph ?attribute) text:query ( " + field + " \"" + searchQuery + "\" 60 'lang:" + languageCode + "' )."
                 ,"}"
         );
-        String query = prefix + "\n" + queryString;
+        String query = QueryInterface.PREFIXES + "\n" + queryString;
         log.info(query);
         return QueryFactory.create(query);
     }
