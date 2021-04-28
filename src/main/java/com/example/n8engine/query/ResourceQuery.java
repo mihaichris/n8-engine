@@ -26,6 +26,7 @@ public class ResourceQuery implements QueryInterface {
         List<String> splitSearchQuery = Arrays.asList(searchQuery.split(" "));
         if (QueryInterface.FIELDS.contains(splitSearchQuery.get(0))) {
             field = splitSearchQuery.get(0);
+            searchQuery = splitSearchQuery.get(1);
         }
 
         String queryString = StrUtils.strjoinNL(
