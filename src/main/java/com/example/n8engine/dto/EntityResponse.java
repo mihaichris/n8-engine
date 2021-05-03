@@ -3,22 +3,31 @@ package com.example.n8engine.dto;
 import java.util.Set;
 
 public class EntityResponse {
-    private Object entity;
-    private Set<Object> ontologyProperties;
+    private Object entityDescription;
+    private Set<Object> entityProperties;
+    private Set<Object> entityClasses;
 
-    public Object getEntity() {
-        return entity;
+    public Object getEntityDescription() {
+        return entityDescription;
     }
 
-    public void setEntity(Object entity) {
-        this.entity = entity;
+    public void setEntityDescription(Object entityDescription) {
+        this.entityDescription = entityDescription;
     }
 
-    public Set<Object> getOntologyProperties() {
-        return ontologyProperties;
+    public Set<Object> getEntityProperties() {
+        return entityProperties;
     }
 
-    public void setOntologyProperties(Set<Object> ontologyProperties) {
-        this.ontologyProperties = ontologyProperties;
+    public void setEntityProperties(Set<Object> entityProperties) {
+        this.entityProperties = entityProperties;
+    }
+
+    public Set<Object> getEntityClasses() {
+        return entityClasses;
+    }
+
+    public void setEntityClasses(Set<Object> entityClasses) {
+        this.entityClasses = entityClasses;
     }
 }

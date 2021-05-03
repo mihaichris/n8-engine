@@ -102,13 +102,19 @@ public class SearcherImpl implements Searcher {
     }
 
     private void buildEntitiesFromResults(Set<Entity> entities, ResultSet results) {
+        String score = "";
+        String graph = "";
         while (results.hasNext()) {
             QuerySolution solution = results.nextSolution();
             String entityName = solution.get("entity").toString();
             String attributeName = solution.get("attribute").toString();
-            String valueName = solution.get("literal").toString();
-            String score = solution.get("score").toString();
-            String graph = solution.getResource("graph").toString();
+            String valueName = solution.get("value").toString();
+            if (solution.get("score") != null) {
+                score = solution.get("score").toString();
+            }
+            if (solution.getResource("graph") != null) {
+                graph = solution.getResource("graph").toString();
+            }
             if (containsName(entities, entityName)) {
                 Entity entity = findByNameInList(entities, entityName);
                 entities.remove(entity);

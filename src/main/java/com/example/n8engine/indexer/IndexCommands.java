@@ -86,7 +86,7 @@ public class IndexCommands {
             try {
                 log.info("Indexing: " + resource.getUri());
                 loadData(ds, resource.getUri());
-                //loadSuggests(resource.getUri());
+                loadSuggests(resource.getUri());
                 i.getAndIncrement();
                 log.info("Number of resource indexed:" + i);
             } catch (Exception exception) {
