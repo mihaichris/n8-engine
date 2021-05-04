@@ -61,12 +61,15 @@ public class IndexCommands {
     }
 
     @ShellMethod("Index content from a source.")
-    public Integer index(@ShellOption() String source) {
+    public Integer index(@ShellOption() String source, @ShellOption() String target) {
         log.info("Indexing " + source + " content started.");
         try {
             Dataset ds = this.searcher.getDataset();
-            loadData(ds, source);
-            loadSuggests(source);
+            if (target.equals("suggests")) {
+                loadSuggests(source);
+            } else {
+                loadData(ds, source);
+            }
             saveIFNotExists(source);
         } catch (Exception exception) {
             log.error("Operation failed: " + exception.getMessage());
@@ -77,7 +80,7 @@ public class IndexCommands {
     }
 
     @ShellMethod("Index content from resource table.")
-    public Integer indexFromDb() {
+    public Integer indexFromDb(@ShellOption() String target) {
         AtomicInteger i = new AtomicInteger();
         log.info("Indexing all from resource table.");
         List<Resource> resourceList = resourceRepository.findAllOrderedById();
@@ -85,8 +88,11 @@ public class IndexCommands {
         resourceList.parallelStream().forEach(resource -> {
             try {
                 log.info("Indexing: " + resource.getUri());
-                loadData(ds, resource.getUri());
-                loadSuggests(resource.getUri());
+                if (target.equals("suggests")) {
+                    loadSuggests(resource.getUri());
+                } else {
+                    loadData(ds, resource.getUri());
+                }
                 i.getAndIncrement();
                 log.info("Number of resource indexed:" + i);
             } catch (Exception exception) {
@@ -141,6 +147,8 @@ public class IndexCommands {
     }
 
     private void loadSuggests(String source) {
+        log.info("Start loading suggests");
+        long startTime = System.nanoTime();
         try {
             Model model = ModelFactory.createDefaultModel();
             model.read(source);
@@ -156,6 +164,9 @@ public class IndexCommands {
         } catch (IOException exception) {
             log.info("Error reading index:" + exception.getMessage());
         }
+        long finishTime = System.nanoTime();
+        double time = (finishTime - startTime) / 1.0e6;
+        log.info(String.format("Finish loading suggests - %.2fms", time));
     }
 
     @ShellMethod("Test searching")
