@@ -24,6 +24,7 @@ import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.springframework.core.env.Environment;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
@@ -34,22 +35,24 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 @Slf4j
 @ShellComponent
 public class IndexCommands {
     private final Environment environment;
+    private int indexedNo = 0;
     private Searcher searcher;
     private ResourceRepository resourceRepository;
     private SearchesRepository searchesRepository;
     private IndexWriter autocompleteDirectoryWriter;
+    private Dataset dataset;
 
     public IndexCommands(Environment environment, Searcher searcher, ResourceRepository resourceRepository) {
         this.environment = environment;
         this.resourceRepository = resourceRepository;
         this.searcher = searcher;
+        this.dataset = this.searcher.getDataset();
         String autosuggestionIndexPath = environment.getProperty("lucene.suggestion.index.path");
         try {
             Directory autosuggestionDirectory = FSDirectory.open(Path.of(autosuggestionIndexPath));
@@ -68,8 +71,9 @@ public class IndexCommands {
             if (target.equals("suggests")) {
                 loadSuggests(source);
             } else {
-                loadData(ds, source);
+                loadData(source);
             }
+            ds.end();
             saveIFNotExists(source);
         } catch (Exception exception) {
             log.error("Operation failed: " + exception.getMessage());
@@ -81,24 +85,30 @@ public class IndexCommands {
 
     @ShellMethod("Index content from resource table.")
     public Integer indexFromDb(@ShellOption() String target) {
-        AtomicInteger i = new AtomicInteger();
         log.info("Indexing all from resource table.");
         List<Resource> resourceList = resourceRepository.findAllOrderedById();
-        Dataset ds = this.searcher.getDataset();
         resourceList.parallelStream().forEach(resource -> {
             try {
+                indexedNo+=1;
                 log.info("Indexing: " + resource.getUri());
                 if (target.equals("suggests")) {
                     loadSuggests(resource.getUri());
                 } else {
-                    loadData(ds, resource.getUri());
+                    loadData(resource.getUri());
                 }
-                i.getAndIncrement();
-                log.info("Number of resource indexed:" + i);
+                resource.setIndexed(true);
+                try {
+                    resourceRepository.save(resource);
+                } catch (Exception e) {
+                    resourceRepository.save(resource);
+                }
+
+                log.info("Number of resource indexed:" + indexedNo);
             } catch (Exception exception) {
                 log.error("Operation failed for resource: " + resource + ":" + exception.toString());
             }
         });
+        this.indexedNo = 0;
         return 0;
     }
 
@@ -112,7 +122,7 @@ public class IndexCommands {
         Dataset ds = this.searcher.getDataset();
         for (Path path : txtFiles) {
             try {
-                loadData(ds, path.getFileName().toString());
+                loadData(path.getFileName().toString());
                 log.info("Indexed: " + path.getFileName().toString());
             } catch (Exception exception) {
                 log.error("Operation failed for resource: " + path.getFileName().toString() + ":" + exception.toString());
@@ -121,20 +131,34 @@ public class IndexCommands {
         return 0;
     }
 
-    private static void loadData(Dataset dataset, String file) {
+    private void loadData(String file) {
         log.info("Start loading data");
         long startTime = System.nanoTime();
-        dataset.begin(ReadWrite.WRITE);
+        dataset.begin(TxnType.WRITE);
         try {
             Model model = dataset.getDefaultModel();
             RDFDataMgr.read(model, file);
-            dataset.commit();
+//            dataset.commit();
+            commit();
         } finally {
             dataset.end();
         }
         long finishTime = System.nanoTime();
         double time = (finishTime - startTime) / 1.0e6;
         log.info(String.format("Finish loading - %.2fms", time));
+    }
+
+    @Async
+//    @Scheduled(cron = "0 * * * * *")
+    void commit() {
+        log.info("Started commit.....");
+//        dataset.begin(TxnType.WRITE);
+        try {
+            dataset.commit();
+        } finally {
+//            dataset.end();
+        }
+        log.info("Ended commit.....");
     }
 
     private void saveIFNotExists(String source) {

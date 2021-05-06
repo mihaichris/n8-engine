@@ -15,6 +15,6 @@ public interface ResourceRepository  extends JpaRepository<Resource, Long> {
     @Query("SELECT r FROM Resource r WHERE r.uri = :uri")
     Optional<Resource> findByUri(@Param("uri") String uri);
 
-    @Query("SELECT r FROM Resource r ORDER BY r.Id ASC")
+    @Query("SELECT r FROM Resource r WHERE r.indexed = false ORDER BY r.Id ASC")
     List<Resource> findAllOrderedById();
 }
