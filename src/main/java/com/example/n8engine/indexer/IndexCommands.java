@@ -93,10 +93,11 @@ public class IndexCommands {
                 log.info("Indexing: " + resource.getUri());
                 if (target.equals("suggests")) {
                     loadSuggests(resource.getUri());
+                    resource.setIndexedSuggestion(true);
                 } else {
                     loadData(resource.getUri());
+                    resource.setIndexed(true);
                 }
-                resource.setIndexed(true);
                 try {
                     resourceRepository.save(resource);
                 } catch (Exception e) {

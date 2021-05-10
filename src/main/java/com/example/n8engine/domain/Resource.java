@@ -20,6 +20,8 @@ public class Resource implements Serializable {
 
     private boolean indexed;
 
+    private boolean indexedSuggestion;
+
     public Resource(String uri) {
         this.uri = uri;
     }
