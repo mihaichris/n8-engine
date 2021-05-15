@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -20,7 +21,7 @@ import java.util.Set;
 @JsonldNamespace(name = "n", uri = "http://n8.org/")
 @JsonldType("n:Entity")
 @JsonIgnoreProperties(ignoreUnknown = true)
-final public class Entity {
+final public class Entity implements Serializable {
 
     @JsonldId
     private String id;

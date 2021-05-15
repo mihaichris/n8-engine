@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 @Data
@@ -18,7 +19,7 @@ import java.util.ArrayList;
 @JsonldNamespace(name = "n", uri = "http://n8.org/")
 @JsonldType("n:Attribute")
 @JsonIgnoreProperties("values")
-final public class Attribute {
+final public class Attribute implements Serializable {
 
     @JsonldId
     private String id;

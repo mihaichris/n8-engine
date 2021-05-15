@@ -1,8 +1,9 @@
 package com.example.n8engine.dto;
 
+import java.io.Serializable;
 import java.util.Set;
 
-public class EntityResponse {
+public class EntityResponse  implements Serializable {
     private Object entityDescription;
     private Set<Object> entityProperties;
     private Set<Object> entityClasses;

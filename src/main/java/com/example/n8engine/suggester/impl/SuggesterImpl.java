@@ -48,7 +48,7 @@ public class SuggesterImpl implements Suggester {
     private void buildAnalyzingSuggester(Directory autocompleteDirectory, Analyzer autocompleteAnalyzer)
             throws IOException {
         DirectoryReader sourceReader = DirectoryReader.open(autocompleteDirectory);
-        LuceneDictionary luceneDictionary = new LuceneDictionary(sourceReader, "description");
+        LuceneDictionary luceneDictionary = new LuceneDictionary(sourceReader, "comment");
         this.analyzingSuggester = new AnalyzingSuggester(autocompleteDirectory, "autocomplete_temp",
                 autocompleteAnalyzer);
         this.analyzingSuggester.build(luceneDictionary);

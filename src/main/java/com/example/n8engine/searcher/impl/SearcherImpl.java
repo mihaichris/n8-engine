@@ -18,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 import opennlp.tools.langdetect.Language;
 import org.apache.jena.query.*;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -41,6 +42,7 @@ public class SearcherImpl implements Searcher {
     private final PhraseService phraseService;
     private Integer maxRetries = 0;
 
+
     public SearcherImpl(Environment environment, SearchQueryFactory searchQueryFactory, ResourceQuery resourceQuery, SearchesRepository searchesRepository, LanguageDetectorService languageDetectorService, PhraseService phraseService) {
         this.searchQueryFactory = searchQueryFactory;
         this.resourceQuery = resourceQuery;
@@ -58,6 +60,7 @@ public class SearcherImpl implements Searcher {
         return dataset;
     }
 
+    @Cacheable("entities")
     public Set<Entity> getEntitiesBySearchQuery(SearchRequest searchRequest) {
         Set<Entity> entities = new HashSet<>();
         SearchType searchType = searchRequest.getSearchType();
@@ -185,6 +188,7 @@ public class SearcherImpl implements Searcher {
         } finally {
             this.getDataset().end();
         }
+
         return entities;
     }
 

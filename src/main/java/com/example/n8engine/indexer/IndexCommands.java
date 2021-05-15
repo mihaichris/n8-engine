@@ -15,7 +15,7 @@ import org.apache.jena.rdf.model.NodeIterator;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.riot.RDFDataMgr;
 import org.apache.jena.sparql.util.QueryExecUtils;
-import org.apache.jena.vocabulary.DC;
+import org.apache.jena.vocabulary.RDFS;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.TextField;
@@ -95,8 +95,8 @@ public class IndexCommands {
                     loadSuggests(resource.getUri());
                     resource.setIndexedSuggestion(true);
                 } else {
-                    loadData(resource.getUri());
-                    resource.setIndexed(true);
+//                    loadData(resource.getUri());
+//                    resource.setIndexed(true);
                 }
                 try {
                     resourceRepository.save(resource);
@@ -172,21 +172,21 @@ public class IndexCommands {
     }
 
     private void loadSuggests(String source) {
-        log.info("Start loading suggests");
+        log.info("Start loading " + source);
         long startTime = System.nanoTime();
         try {
             Model model = ModelFactory.createDefaultModel();
-            model.read(source);
-            NodeIterator nodeIterator = model.listObjectsOfProperty(DC.description);
+            RDFDataMgr.read(model, source);
+            NodeIterator nodeIterator = model.listObjectsOfProperty(RDFS.comment);
             while (nodeIterator.hasNext()) {
                 RDFNode r = nodeIterator.nextNode();
-                String description = r.asLiteral().getString();
+                String comment = r.asLiteral().getString();
                 Document document = new Document();
-                document.add(new TextField("description", description, Field.Store.YES));
+                document.add(new TextField("comment", comment, Field.Store.YES));
                 autocompleteDirectoryWriter.addDocument(document);
                 autocompleteDirectoryWriter.commit();
             }
-        } catch (IOException exception) {
+        } catch (Exception exception) {
             log.info("Error reading index:" + exception.getMessage());
         }
         long finishTime = System.nanoTime();

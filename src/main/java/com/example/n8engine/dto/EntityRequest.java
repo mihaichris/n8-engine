@@ -1,5 +1,6 @@
 package com.example.n8engine.dto;
 
+
 public class EntityRequest {
     private String uri;
 

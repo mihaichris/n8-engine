@@ -1,6 +1,7 @@
 package com.example.n8engine.controller;
 
 
+import com.example.n8engine.config.CachingManager;
 import com.example.n8engine.dto.EntityRequest;
 import com.example.n8engine.dto.EntityResponse;
 import com.example.n8engine.mapper.JsonLdMapper;
@@ -9,12 +10,10 @@ import com.example.n8engine.searcher.Searcher;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.annotation.PreDestroy;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -26,14 +25,24 @@ final public class EntityController {
     private final JsonLdMapper jsonLdMapper;
     private final Searcher searcher;
     private String uri;
+    private final CachingManager cachingManager;
 
-    public EntityController(@Qualifier("searcher") Searcher searcher, JsonLdMapper jsonLdMapper) {
+    public EntityController(@Qualifier("searcher") Searcher searcher, JsonLdMapper jsonLdMapper, CachingManager cachingManager) {
         this.searcher = searcher;
         this.jsonLdMapper = jsonLdMapper;
+        this.cachingManager = cachingManager;
+    }
+
+    @GetMapping
+    public void closeCache() {
+        this.cachingManager.stopPersistentCacheManager();
     }
 
     @PostMapping()
     public EntityResponse findByEntity(@RequestBody EntityRequest entityRequest) {
+        if (cachingManager.getEntityCache().containsKey(entityRequest.getUri())) {
+            return cachingManager.getEntityCache().get(entityRequest.getUri());
+        }
         EntityResponse entityResponse = new EntityResponse();
 
         String Id = entityRequest.getUri();
@@ -46,6 +55,7 @@ final public class EntityController {
             entityResponse.setEntityDescription(entityDescription);
             entityResponse.setEntityClasses(entityClasses);
             entityResponse.setEntityProperties(entityProperties);
+            cachingManager.getEntityCache().put(Id, entityResponse);
             return entityResponse;
         } catch (Exception exception) {
             log.error(exception.getMessage());
@@ -86,5 +96,10 @@ final public class EntityController {
         }).collect(Collectors.toSet());
         entityProperties.parallelStream().forEach(entityPropertiesJsonLd::add);
         return entityPropertiesJsonLd;
+    }
+
+    @PreDestroy
+    public void destroy() {
+        this.cachingManager.stopPersistentCacheManager();
     }
 }

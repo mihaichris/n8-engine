@@ -9,13 +9,15 @@ import ioinformarics.oss.jackson.module.jsonld.annotation.JsonldType;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 @Data
 @NoArgsConstructor
 @JsonldResource
 @JsonldNamespace(name = "n", uri = "http://n8.org/")
 @JsonldType("n:Value")
 @JsonIgnoreProperties(ignoreUnknown = true)
-final public class Value {
+final public class Value implements Serializable {
 
     @JsonldId
     private String id;
