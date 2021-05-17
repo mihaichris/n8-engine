@@ -38,6 +38,10 @@ final public class EntityController {
         this.cachingManager.stopPersistentCacheManager();
     }
 
+//    public void deleteEntity() {
+//        this.searcher.getDataset().getDefaultModel().remove()
+//    }
+
     @PostMapping()
     public EntityResponse findByEntity(@RequestBody EntityRequest entityRequest) {
         if (cachingManager.getEntityCache().containsKey(entityRequest.getUri())) {

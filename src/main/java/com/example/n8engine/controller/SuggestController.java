@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @Slf4j
@@ -25,7 +26,7 @@ final public class SuggestController {
     @GetMapping("/{query}")
     public List<String> suggest(@PathVariable String query) {
         try {
-            List<String> suggestions = this.suggester.getSuggestionsBySearchQuery(query);
+            List<String> suggestions = this.suggester.getSuggestionsBySearchQuery(query).stream().limit(3).collect(Collectors.toUnmodifiableList());
             return suggestions;
         } catch (Exception exception) {
             log.error(exception.getMessage());

@@ -24,10 +24,10 @@ public class DocumentQuery implements QueryInterface{
                 , "PREFIX owl: <http://www.w3.org/2002/07/owl#>"
         );
         String queryString = StrUtils.strjoinNL(
-                "SELECT DISTINCT ?entity ?attribute ?literal ?score ?graph "
+                "SELECT DISTINCT ?entity ?attribute ?value ?score ?graph "
                 , " WHERE {"
                 , " ?entity rdf:type owl:Ontology. "
-                ,  "(?entity ?score ?literal ?graph ?attribute) text:query ( n8:text " + "\"" + searchQuery + "\" 60 'lang:" + languageCode + "')."
+                ,  "(?entity ?score ?value ?graph ?attribute) text:query ( n8:text " + "\"" + searchQuery + "\" 60 'lang:" + languageCode + "')."
                 ,"}"
         );
         Query query = QueryFactory.create(prefix + "\n" + queryString);

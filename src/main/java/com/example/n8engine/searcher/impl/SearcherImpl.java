@@ -101,7 +101,9 @@ public class SearcherImpl implements Searcher {
             return languageCode;
         }
         Language language = this.languageDetectorService.detectLanguage(searchRequest.getSearchQuery());
-        return language.getLang().toLowerCase(Locale.ROOT).substring(0, 2);
+        String lang = language.getLang().toLowerCase(Locale.ROOT).substring(0, 2);
+        log.info("Detected language: " + lang);
+        return lang;
     }
 
     private void buildEntitiesFromResults(Set<Entity> entities, ResultSet results) {
