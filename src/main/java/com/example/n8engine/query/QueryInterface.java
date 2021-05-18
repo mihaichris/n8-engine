@@ -15,7 +15,7 @@ public interface QueryInterface {
             , "PREFIX owl: <http://www.w3.org/2002/07/owl#>"
             , "PREFIX skos:    <http://www.w3.org/2004/02/skos/core#>"
     );
-    List<String> FIELDS = List.of("rdfs:comment","rdfs:label", "rdf:label", "dc:description", "dc:title", "skos:prefLabel", "skos:altLabel");
+    List<String> FIELDS = List.of("n8:label","rdfs:comment","rdfs:label", "rdf:label", "dc:description", "dc:title", "skos:prefLabel", "skos:altLabel");
     Query search(String searchQuery, String languageCode);
     Query findByEntityUri(String URI);
     Query findOntologyProperties(String URI);

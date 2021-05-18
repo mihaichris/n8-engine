@@ -1,4 +1,4 @@
-package com.example.n8engine.config;
+package com.example.n8engine.service;
 
 import com.example.n8engine.dto.EntityResponse;
 import lombok.extern.slf4j.Slf4j;

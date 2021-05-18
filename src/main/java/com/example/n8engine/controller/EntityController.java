@@ -1,7 +1,7 @@
 package com.example.n8engine.controller;
 
 
-import com.example.n8engine.config.CachingManager;
+import com.example.n8engine.service.CachingManager;
 import com.example.n8engine.dto.EntityRequest;
 import com.example.n8engine.dto.EntityResponse;
 import com.example.n8engine.mapper.JsonLdMapper;
