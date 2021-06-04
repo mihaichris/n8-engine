@@ -26,7 +26,7 @@ final public class SuggestController {
     @GetMapping("/{query}")
     public List<String> suggest(@PathVariable String query) {
         try {
-            List<String> suggestions = this.suggester.getSuggestionsBySearchQuery(query).stream().limit(3).collect(Collectors.toUnmodifiableList());
+            List<String> suggestions = this.suggester.getSuggestionsBySearchQuery(query).stream().limit(4).collect(Collectors.toUnmodifiableList());
             return suggestions;
         } catch (Exception exception) {
             log.error(exception.getMessage());

@@ -39,7 +39,7 @@ public class SuggesterImpl implements Suggester {
 
     @SneakyThrows()
     public List<String> getSuggestionsBySearchQuery(String term) {
-        List<Lookup.LookupResult> lookup = this.analyzingSuggester.lookup(term, false, 5);
+        List<Lookup.LookupResult> lookup = this.analyzingSuggester.lookup(term, false, 20);
         List<String> suggestions = lookup.stream().map(a -> a.key.toString()).collect(Collectors.toList());
 
         return suggestions;

@@ -100,8 +100,24 @@ public class SearcherImpl implements Searcher {
         if (!languageCode.isEmpty()) {
             return languageCode;
         }
+        String lang = "";
         Language language = this.languageDetectorService.detectLanguage(searchRequest.getSearchQuery());
-        String lang = language.getLang().toLowerCase(Locale.ROOT).substring(0, 2);
+        Language[] languages = this.languageDetectorService.detectLanguages(searchRequest.getSearchQuery());
+        for (Language detectedLanguage: languages) {
+            lang = detectedLanguage.getLang().toLowerCase(Locale.ROOT).substring(0, 2);
+            if (lang.equals("sp")) {
+                lang = "es";
+            }
+            if (List.of("en","es","it","de","fr").contains(lang)) {
+                break;
+            }
+        }
+        if (!List.of("en","es","it","de","fr").contains(lang)) {
+            lang = language.getLang().toLowerCase(Locale.ROOT).substring(0, 2);
+            if (lang.equals("sp")) {
+                lang = "es";
+            }
+        }
         log.info("Detected language: " + lang);
         return lang;
     }

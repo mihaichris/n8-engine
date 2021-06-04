@@ -35,4 +35,9 @@ public class LanguageDetectorServiceImpl implements LanguageDetectorService {
     {
         return this.categorizer.predictLanguage(searchPhrase);
     }
+
+    public Language[] detectLanguages(String searchPhrase)
+    {
+        return this.categorizer.predictLanguages(searchPhrase);
+    }
 }

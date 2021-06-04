@@ -4,4 +4,5 @@ import opennlp.tools.langdetect.Language;
 
 public interface LanguageDetectorService {
     Language detectLanguage(String searchPhrase);
+    Language[] detectLanguages(String searchPhrase);
 }
