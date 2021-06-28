@@ -1,0 +1,4 @@
+#Key and value types
+#Sun May 30 16:19:42 EEST 2021
+valueType=com.example.n8engine.dto.EntityResponse
+keyType=java.lang.String

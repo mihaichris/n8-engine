@@ -38,9 +38,10 @@ final public class EntityController {
         this.cachingManager.stopPersistentCacheManager();
     }
 
-//    public void deleteEntity() {
-//        this.searcher.getDataset().getDefaultModel().remove()
-//    }
+    @GetMapping("/cache")
+    public void deleteEntity(String uri) {
+        cachingManager.getEntityCache().remove("http://dbpedia.org/resource/Music");
+    }
 
     @PostMapping()
     public EntityResponse findByEntity(@RequestBody EntityRequest entityRequest) {

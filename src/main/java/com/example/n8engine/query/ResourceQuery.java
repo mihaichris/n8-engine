@@ -16,9 +16,6 @@ import java.util.List;
 @AllArgsConstructor
 public class ResourceQuery implements QueryInterface {
 
-    /*
-     * Search by all triples
-     */
     @Override
     public Query search(String searchQuery, String languageCode) {
         String field = "n8:text";

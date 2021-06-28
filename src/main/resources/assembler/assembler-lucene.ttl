@@ -13,9 +13,6 @@ PREFIX skos:    <http://www.w3.org/2004/02/skos/core#>
     rdf:type        fuseki:Server ;
     fuseki:services ( n8:service ) .
 
-## Service description for "/dataset"
-## with a TDB2 dataset and a text index.
-
 n8:service
     rdf:type        fuseki:Service ;
     fuseki:name     "dataset" ;
@@ -54,9 +51,6 @@ text:TextDataset
 text:TextIndexLucene
     rdfs:subClassOf text:TextIndex .
 
-## ---------------------------------------------------------------
-## This URI must be fixed - it's used to assemble the text dataset.
-
 n8:text_dataset
     rdf:type     text:TextDataset ;
     text:dataset n8:base_dataset ;
@@ -65,21 +59,19 @@ n8:text_dataset
 
 n8:base_dataset
     rdf:type      tdb2:DatasetTDB2 ;
-    tdb2:location "E:/Java Projects/tdb2/lucene"
+    # tdb2:location "C:/Users/mihai/Documents/GitHub/tdb2/lucene"
+    tdb2:location "D:/tdb2/lucene"
 .
 
 n8:indexLucene
     a                        text:TextIndexLucene ;
-    text:directory           "E:/Java Projects/n8-engine/src/main/resources/index/lucene" ;
+    text:directory           "C:/Users/mihai/Documents/GitHub/n8-engine/src/main/resources/index/lucene" ;
     text:storeValues         true ;
     text:analyzer            [ a          text:GenericAnalyzer ;
                                text:class "com.example.n8engine.semantic.analyzer.SemanticAnalyzer" ; ] ;
 #    text:queryAnalyzer            [ a          text:GenericAnalyzer ;
 #                               text:class "com.example.n8engine.semantic.analyzer.SemanticQueryAnalyzer" ; ] ;
-#    text:queryAnalyzer       [ a text:LowerCaseKeywordAnalyzer ] ;
-#    text:queryAnalyzer       [ a              text:ConfigurableAnalyzer ;
-#                               text:tokenizer text:KeywordTokenizer ;
-#                               text:filters   ( text:ASCIIFoldingFilter text:LowerCaseFilter ) ; ] ;
+
     text:queryParser         text:ComplexPhraseQueryParser ;
     text:propLists           ( [ text:propListProp n8:text ;
                                  text:props        ( skos:prefLabel
